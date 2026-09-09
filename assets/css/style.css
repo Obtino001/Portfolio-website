@@ -95,7 +95,7 @@
 
     /* ── NAV ── */
     nav {
-      position: absolute; top: 0; left: 0; right: 0; z-index: 100;
+      position: absolute; top: 0; left: 0; right: 0; z-index: 1100;
       padding: 0 0 16px;
       background: transparent;
       border: none;
@@ -166,8 +166,8 @@
     .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
     .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    .nav-inner:has(.nav-hamburger.open) .logo { color: var(--text); }
-    .nav-inner:has(.nav-hamburger.open) .nav-hamburger span { background: rgba(15,21,32,0.85); }
+    .nav-inner:has(.nav-hamburger.open) .logo { color: #fff; }
+    .nav-inner:has(.nav-hamburger.open) .nav-hamburger span { background: #fff; }
 
     /* ── MOBILE MENU ── */
     .mobile-menu {

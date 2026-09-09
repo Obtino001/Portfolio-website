@@ -526,6 +526,160 @@
       .footer-top { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
     }
+  
+    /* ── INTERACTIVE PROJECT DETAIL MODAL ── */
+    .project-modal-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(8, 12, 20, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 2100;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .project-modal-backdrop.open {
+      opacity: 1; pointer-events: all;
+    }
+    .project-modal {
+      background: #ffffff;
+      width: 100%; max-width: 720px;
+      max-height: 90vh;
+      border-radius: 24px;
+      overflow-y: auto;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.4);
+      position: relative;
+      transform: translateY(24px);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex; flex-direction: column;
+      border: 1px solid rgba(15,20,40,0.1);
+    }
+    .project-modal-backdrop.open .project-modal {
+      transform: translateY(0);
+    }
+    .project-modal__header {
+      padding: 32px 36px 20px;
+      border-bottom: 1px solid rgba(15,20,40,0.08);
+      position: relative;
+      background: #fafbfc;
+      border-radius: 24px 24px 0 0;
+    }
+    .project-modal__close {
+      position: absolute; right: 20px; top: 20px;
+      background: rgba(15,20,40,0.06); border: none;
+      width: 36px; height: 36px; border-radius: 50%;
+      cursor: pointer; display: grid; place-items: center;
+      font-size: 20px; color: #111827;
+      transition: background 0.2s, transform 0.2s;
+      z-index: 10;
+    }
+    .project-modal__close:hover { background: rgba(15,20,40,0.12); transform: rotate(90deg); }
+    .project-modal__badge {
+      display: inline-block; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: #16a34a; background: rgba(22,163,74,0.12);
+      border: 1px solid rgba(22,163,74,0.25);
+      padding: 4px 12px; border-radius: 100px;
+    }
+    .project-modal__client {
+      font-size: 12px; color: var(--text-dim); font-weight: 500;
+    }
+    .project-modal__title {
+      font-size: clamp(22px, 2.8vw, 30px); font-weight: 700; line-height: 1.25;
+      color: #111827; margin: 0; letter-spacing: -0.02em;
+    }
+    .project-modal__body {
+      padding: 28px 36px 36px;
+    }
+    .project-modal__summary {
+      font-size: 15.5px; line-height: 1.7; color: var(--text);
+      margin-bottom: 24px; font-weight: 450;
+    }
+    .project-modal__results {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 12px; margin-bottom: 26px;
+    }
+    .pm-result-box {
+      background: #f4f6fb;
+      border: 1px solid rgba(15,20,40,0.06);
+      border-radius: 14px;
+      padding: 16px 12px;
+      text-align: center;
+    }
+    .pm-result-val {
+      font-size: clamp(18px, 2vw, 24px); font-weight: 800;
+      color: #16a34a; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 4px;
+    }
+    .pm-result-label {
+      font-size: 11px; color: var(--text-dim); text-transform: uppercase;
+      letter-spacing: 0.04em; font-weight: 600;
+    }
+    .project-modal__section {
+      margin-bottom: 22px;
+    }
+    .project-modal__section h4 {
+      font-size: 12px; font-weight: 700; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .project-modal__section p {
+      font-size: 14.5px; line-height: 1.7; color: var(--text-muted);
+    }
+    .project-modal__deliverables {
+      list-style: none; display: flex; flex-direction: column; gap: 8px;
+    }
+    .project-modal__deliverables li {
+      font-size: 14px; color: var(--text);
+      display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
+    }
+    .pm-check-icon {
+      color: #16a34a; font-weight: bold; flex-shrink: 0; margin-top: 1px;
+    }
+    .project-modal__tech {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-top: 24px; padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .pm-tech-tag {
+      font-size: 11.5px; font-weight: 500;
+      background: rgba(74,103,133,0.08); color: var(--accent);
+      padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(74,103,133,0.14);
+    }
+    .project-modal__footer {
+      margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+
+    /* Mobile specific adjustments for modal */
+    @media (max-width: 640px) {
+      .project-modal {
+        max-height: 92vh;
+        border-radius: 20px;
+      }
+      .project-modal__header {
+        padding: 24px 20px 16px;
+      }
+      .project-modal__body {
+        padding: 20px;
+      }
+      .project-modal__results {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .pm-result-box {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 10px 16px; text-align: left;
+      }
+      .pm-result-val { margin-bottom: 0; }
+      .project-modal__footer {
+        flex-direction: column; width: 100%;
+      }
+      .project-modal__footer .btn {
+        width: 100%; justify-content: center;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -534,7 +688,8 @@
   <nav id="nav">
     <div class="announcement-bar" id="announcement-bar">
       <span class="announcement-dot"></span>
-      <span>Now accepting new Shopify development &amp; CRO projects for Q3 &amp; Q4</span>
+      <span class="ann-text-full">Now accepting new Shopify development &amp; CRO projects for Q3 &amp; Q4</span>
+      <span class="ann-text-short">Now accepting new Shopify projects</span>
       <a href="index.html#hero-form" class="ann-cta">Get in touch</a>
       <button class="announcement-close" id="announcement-close" aria-label="Close announcement">×</button>
     </div>
@@ -604,7 +759,7 @@
     <div class="container portfolio-list">
 
       <!-- 1. Lucy Pittaway -->
-      <div class="portfolio-item reveal">
+      <div class="portfolio-item reveal" data-project-key="lucy-pittaway">
         <div class="portfolio-content">
           <span class="portfolio-pdm-badge">Featured Migration</span>
           <div class="eyebrow">Shopify Migration</div>
@@ -643,7 +798,7 @@
       </div>
 
       <!-- 2. Etech Mobility -->
-      <div class="portfolio-item reversed reveal">
+      <div class="portfolio-item reversed reveal" data-project-key="etech-mobility">
         <div class="portfolio-content">
           <span class="portfolio-pdm-badge">Full Redesign</span>
           <div class="eyebrow">Website Redesign</div>
@@ -682,7 +837,7 @@
       </div>
 
       <!-- 3. Team Monaco -->
-      <div class="portfolio-item reveal">
+      <div class="portfolio-item reveal" data-project-key="team-monaco">
         <div class="portfolio-content">
           <span class="portfolio-pdm-badge">New Launch</span>
           <div class="eyebrow">New Website</div>
@@ -721,7 +876,7 @@
       </div>
 
       <!-- 4. Bedology -->
-      <div class="portfolio-item reversed reveal">
+      <div class="portfolio-item reversed reveal" data-project-key="bedology">
         <div class="portfolio-content">
           <span class="portfolio-pdm-badge">Interactive Configurator</span>
           <div class="eyebrow">New Website</div>
@@ -760,7 +915,7 @@
       </div>
 
       <!-- 5. The Laser Base -->
-      <div class="portfolio-item reveal">
+      <div class="portfolio-item reveal" data-project-key="laser-base">
         <div class="portfolio-content">
           <span class="portfolio-pdm-badge">Booking Flow</span>
           <div class="eyebrow">New Website</div>
@@ -799,7 +954,7 @@
       </div>
 
       <!-- 6. Lusso -->
-      <div class="portfolio-item reversed reveal">
+      <div class="portfolio-item reversed reveal" data-project-key="lusso">
         <div class="portfolio-content">
           <span class="portfolio-pdm-badge">Cycling DTC</span>
           <div class="eyebrow">Website Redesign</div>
@@ -838,7 +993,7 @@
       </div>
 
       <!-- 7. KMS Direct -->
-      <div class="portfolio-item reveal">
+      <div class="portfolio-item reveal" data-project-key="kms-direct">
         <div class="portfolio-content">
           <span class="portfolio-pdm-badge">Multi-Category</span>
           <div class="eyebrow">Website Redesign</div>
@@ -877,7 +1032,7 @@
       </div>
 
       <!-- 8. Extractly -->
-      <div class="portfolio-item reversed reveal">
+      <div class="portfolio-item reversed reveal" data-project-key="extractly">
         <div class="portfolio-content">
           <span class="portfolio-pdm-badge">B2B Industrial</span>
           <div class="eyebrow">New Website</div>
@@ -916,7 +1071,7 @@
       </div>
 
       <!-- 9. Extractly Shop -->
-      <div class="portfolio-item reveal">
+      <div class="portfolio-item reveal" data-project-key="extractly-shop">
         <div class="portfolio-content">
           <span class="portfolio-pdm-badge">Shopify B2B</span>
           <div class="eyebrow">Shopify Redesign</div>
@@ -955,7 +1110,7 @@
       </div>
 
       <!-- 10. Ergolex -->
-      <div class="portfolio-item reversed reveal">
+      <div class="portfolio-item reversed reveal" data-project-key="ergolex">
         <div class="portfolio-content">
           <div class="eyebrow">Shopify Development</div>
           <h2 class="display">Ergolex</h2>
@@ -985,7 +1140,7 @@
       </div>
 
       <!-- 11. Visio Pro -->
-      <div class="portfolio-item reveal">
+      <div class="portfolio-item reveal" data-project-key="visio-pro">
         <div class="portfolio-content">
           <div class="eyebrow">Shopify Product Page</div>
           <h2 class="display">Visio Pro</h2>
@@ -1015,7 +1170,7 @@
       </div>
 
       <!-- 12. Tipalti -->
-      <div class="portfolio-item reversed reveal">
+      <div class="portfolio-item reversed reveal" data-project-key="tipalti">
         <div class="portfolio-content">
           <div class="eyebrow">Lead Generation</div>
           <h2 class="display">Tipalti</h2>
@@ -1048,7 +1203,7 @@
       </div>
 
       <!-- 13. Velo -->
-      <div class="portfolio-item reveal">
+      <div class="portfolio-item reveal" data-project-key="velo">
         <div class="portfolio-content">
           <div class="eyebrow">Product Landing Pages</div>
           <h2 class="display">Velo</h2>
@@ -1081,7 +1236,7 @@
       </div>
 
       <!-- 14. Mr Drapper -->
-      <div class="portfolio-item reversed reveal">
+      <div class="portfolio-item reversed reveal" data-project-key="mr-drapper">
         <div class="portfolio-content">
           <div class="eyebrow">Fashion Landing Page</div>
           <h2 class="display">Mr Drapper</h2>
@@ -1464,5 +1619,60 @@
 
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
   </script>
+
+  <!-- INTERACTIVE PROJECT DETAIL MODAL -->
+  <div class="project-modal-backdrop" id="projectModalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="project-modal" id="projectModal">
+      <div class="project-modal__header">
+        <button class="project-modal__close" id="projectModalCloseBtn" aria-label="Close modal">×</button>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
+          <span class="project-modal__badge" id="pmBadge">+48.2% CONVERSION LIFT</span>
+          <span class="project-modal__client" id="pmClient">Client Name · Timeframe</span>
+        </div>
+        <h2 class="project-modal__title" id="pmTitle">Project Title</h2>
+      </div>
+      <div class="project-modal__body">
+        <p class="project-modal__summary" id="pmSummary"></p>
+
+        <!-- Quantifiable Results Banner -->
+        <div class="project-modal__results" id="pmResults">
+          <!-- Injected via JS -->
+        </div>
+
+        <!-- Challenge & Solution -->
+        <div class="project-modal__section">
+          <h4>The Challenge</h4>
+          <p id="pmChallenge"></p>
+        </div>
+
+        <div class="project-modal__section">
+          <h4>The Solo Solution</h4>
+          <p id="pmSolution"></p>
+        </div>
+
+        <!-- Deliverables -->
+        <div class="project-modal__section">
+          <h4>What Yasir Engineered</h4>
+          <ul class="project-modal__deliverables" id="pmDeliverables">
+            <!-- Injected via JS -->
+          </ul>
+        </div>
+
+        <!-- Tech Stack -->
+        <div class="project-modal__tech" id="pmTech">
+          <!-- Injected via JS -->
+        </div>
+
+        <div class="project-modal__footer">
+          <a href="index.html#hero-form" class="btn btn-primary" id="pmDiscussBtn">
+            Discuss a similar project with Yasir
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+          </a>
+          <button class="btn btn-ghost" id="pmDoneBtn" style="color:var(--text);border-color:var(--border);">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

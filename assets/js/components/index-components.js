@@ -41,68 +41,70 @@ if (!customElements.get('faq-accordion')) {
 class ContactForm extends HTMLElement {
   connectedCallback() {
     // 💡 PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW:
-    // Follow the 60-second guide in google-apps-script.js
     this.GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzyxmPjJ_N_dXGYahoHHK4uSuG20hV2rksIyZPTtqL_-s61a4fZdchM8TFRxwRHankm/exec';
 
-    this.form = this.querySelector('form') || this.querySelector('#hero-form');
-    this.budgetSelect = this.querySelector('#hf-budget') || this.querySelector('select');
-    this.nameInput = this.querySelector('#hf-name');
-    this.emailInput = this.querySelector('#hf-email');
-    this.msgInput = this.querySelector('#hf-message');
-    this.submitBtn = this.querySelector('#hf-submit') || this.querySelector('button[type="submit"]');
-    this.errorEl = this.querySelector('#hf-error');
-    this.successCard = document.getElementById('hf-success-card') || this.querySelector('#hf-success-card');
-    this.clientNameEl = document.getElementById('success-client-name') || this.querySelector('#success-client-name');
-    this.resetBtn = document.getElementById('hf-reset-btn') || this.querySelector('#hf-reset-btn');
+    // Wait for children to be parsed
+    setTimeout(() => {
+      this.form = this.querySelector('form') || this.querySelector('#hero-form');
+      this.budgetSelect = this.querySelector('#hf-budget') || this.querySelector('select');
+      this.nameInput = this.querySelector('#hf-name');
+      this.emailInput = this.querySelector('#hf-email');
+      this.msgInput = this.querySelector('#hf-message');
+      this.submitBtn = this.querySelector('#hf-submit') || this.querySelector('button[type="submit"]');
+      this.errorEl = this.querySelector('#hf-error');
+      this.successCard = document.getElementById('hf-success-card') || this.querySelector('#hf-success-card');
+      this.clientNameEl = document.getElementById('success-client-name') || this.querySelector('#success-client-name');
+      this.resetBtn = document.getElementById('hf-reset-btn') || this.querySelector('#hf-reset-btn');
 
-    if (this.budgetSelect && !this.querySelector('.custom-select-group')) {
-      this.budgetSelect.addEventListener('change', (e) => {
-        e.target.style.color = e.target.value ? '#111827' : '#9aa3b0';
-      });
-    }
-
-    // Premium Custom Dropdown Logic
-    this.customSelectGroup = this.querySelector('.custom-select-group');
-    this.customSelectTrigger = this.querySelector('.custom-select-trigger');
-    this.customSelectValue = this.querySelector('.custom-select-value');
-    this.customSelectOptions = this.querySelectorAll('.custom-select-option');
-    
-    if (this.customSelectGroup && this.customSelectTrigger) {
-      this.customSelectValue.classList.add('placeholder-active');
-      this.customSelectTrigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        this.customSelectGroup.classList.toggle('open');
-      });
-      
-      this.customSelectOptions.forEach(option => {
-        option.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const val = option.getAttribute('data-value');
-          this.customSelectValue.textContent = val;
-          this.customSelectValue.classList.remove('placeholder-active');
-          if (this.budgetSelect) this.budgetSelect.value = val;
-          this.customSelectGroup.classList.remove('open');
-          const label = this.customSelectGroup.querySelector('label');
-          if (label) label.classList.add('active');
+      if (this.budgetSelect && !this.querySelector('.custom-select-group')) {
+        this.budgetSelect.addEventListener('change', (e) => {
+          e.target.style.color = e.target.value ? '#111827' : '#9aa3b0';
         });
-      });
+      }
+
+      // Premium Custom Dropdown Logic
+      this.customSelectGroup = this.querySelector('.custom-select-group');
+      this.customSelectTrigger = this.querySelector('.custom-select-trigger');
+      this.customSelectValue = this.querySelector('.custom-select-value');
+      this.customSelectOptions = this.querySelectorAll('.custom-select-option');
       
-      document.addEventListener('click', (e) => {
-        if (!this.customSelectGroup.contains(e.target)) {
-          this.customSelectGroup.classList.remove('open');
-        }
-      });
-    }
+      if (this.customSelectGroup && this.customSelectTrigger) {
+        this.customSelectValue.classList.add('placeholder-active');
+        this.customSelectTrigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.customSelectGroup.classList.toggle('open');
+        });
+        
+        this.customSelectOptions.forEach(option => {
+          option.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const val = option.getAttribute('data-value');
+            this.customSelectValue.textContent = val;
+            this.customSelectValue.classList.remove('placeholder-active');
+            if (this.budgetSelect) this.budgetSelect.value = val;
+            this.customSelectGroup.classList.remove('open');
+            const label = this.customSelectGroup.querySelector('label');
+            if (label) label.classList.add('active');
+          });
+        });
+        
+        document.addEventListener('click', (e) => {
+          if (!this.customSelectGroup.contains(e.target)) {
+            this.customSelectGroup.classList.remove('open');
+          }
+        });
+      }
 
-    if (this.form) {
-      this.form.addEventListener('submit', (e) => this.handleSubmit(e));
-    }
+      if (this.form) {
+        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+      }
 
-    if (this.resetBtn) {
-      this.resetBtn.addEventListener('click', () => this.resetToForm());
-    }
+      if (this.resetBtn) {
+        this.resetBtn.addEventListener('click', () => this.resetToForm());
+      }
 
-    this.initCtaConnectors();
+      this.initCtaConnectors();
+    }, 0);
   }
 
   // Connect all CTAs across the site to focus & pre-populate the form

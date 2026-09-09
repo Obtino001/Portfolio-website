@@ -176,7 +176,7 @@
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       display: flex; flex-direction: column; justify-content: space-between;
-      padding: 100px 28px 40px;
+      padding: 140px 28px 40px;
       opacity: 0; pointer-events: none;
       transform: translateY(-10px);
       transition: opacity 0.3s ease, transform 0.3s ease;
@@ -1206,4 +1206,18 @@ body.theme-shopify-electric .hero-title .gradient-text {
   background: rgba(255, 255, 255, 0.16);
   border-color: rgba(255, 255, 255, 0.3);
   color: #ffffff;
+}
+
+/* ── FOUNDER GRID ── */
+.founder-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 56px;
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .founder-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
 }

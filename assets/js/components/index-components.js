@@ -42,7 +42,7 @@ class ContactForm extends HTMLElement {
   connectedCallback() {
     // 💡 PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW:
     // Follow the 60-second guide in google-apps-script.js
-    this.GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+    this.GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzyxmPjJ_N_dXGYahoHHK4uSuG20hV2rksIyZPTtqL_-s61a4fZdchM8TFRxwRHankm/exec';
 
     this.form = this.querySelector('form') || this.querySelector('#hero-form');
     this.budgetSelect = this.querySelector('#hf-budget') || this.querySelector('select');

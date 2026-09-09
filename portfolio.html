@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selected Projects | Yasir Malik — Shopify Development &amp; CRO Expert</title>
+  <meta name="description" content="A curated selection of Shopify builds, headless storefronts, migrations, and CRO audits delivered by Yasir Malik.">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Selected Projects | Yasir Malik — Shopify Development &amp; CRO Expert">
+  <meta property="og:description" content="A curated selection of Shopify builds, headless storefronts, and CRO redesigns by Yasir Malik.">
+  <meta property="og:site_name" content="Yasir Malik Portfolio">
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230f1520'/><path d='M10 8l6 10 6-10h4l-8 14v4h-4v-4L6 8z' fill='%234a6785'/><circle cx='16' cy='12' r='2' fill='%2316a34a'/></svg>">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #edf1f7;
+      --bg-2: #e4e9f2;
+      --bg-3: #d6dce8;
+      --bg-card: #ffffff;
+      --border: rgba(15,20,40,0.08);
+      --border-hover: rgba(15,20,40,0.15);
+      --text: #111827;
+      --text-muted: #475569;
+      --text-dim: #556070;
+      --accent: #4a6785;
+      --accent-2: #3a5570;
+      --accent-glow: rgba(74,103,133,0.12);
+      --green: #16a34a;
+      --radius: 20px;
+      --radius-sm: 100px;
+      --transition: 0.2s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.5em;
+      letter-spacing: -0.32px;
+      overflow-x: hidden;
+      font-synthesis: none;
+    }
+    p { font-size: 16px; line-height: 1.5em; letter-spacing: -0.32px; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-2); }
+    ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 3px; }
+
+    /* ── TYPOGRAPHY ── */
+    h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; line-height: 1.2em; letter-spacing: -0.02em; margin: 0 0 24px; }
+    h1 { font-size: clamp(35px, 3.333vw, 48px); letter-spacing: -1.28px; }
+    strong, b, th { font-weight: 600; }
+    .display { font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(32px, 4vw, 52px); line-height: 1.25em; letter-spacing: -0.03em; }
+    .eyebrow {
+      display: inline-block;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 100px;
+      padding: 4px 12px;
+      width: fit-content;
+    }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1340px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 120px 0; position: relative; }
+
+    /* ── ANNOUNCEMENT BAR ── */
+    .announcement-bar {
+      background: rgba(5,9,20,0.94);
+      backdrop-filter: blur(8px);
+      height: 38px; display: flex; align-items: center; justify-content: center; gap: 8px;
+      font-size: 12px; color: rgba(255,255,255,0.7);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      position: relative; white-space: nowrap; overflow: hidden;
+      padding: 0 48px;
+    }
+    .announcement-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .announcement-bar a {
+      color: rgba(255,255,255,0.92); text-decoration: none; font-style: normal; font-weight: 500;
+      padding: 2px 10px; background: rgba(255,255,255,0.1); border-radius: 100px;
+      margin-left: 2px; transition: background 0.2s;
+    }
+    .announcement-bar a:hover { background: rgba(255,255,255,0.18); }
+    .announcement-close {
+      position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer;
+      color: rgba(255,255,255,0.4); font-size: 18px; line-height: 1;
+      padding: 4px 6px; transition: color 0.2s;
+    }
+    .announcement-close:hover { color: rgba(255,255,255,0.85); }
+    .announcement-bar.hidden { display: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: absolute; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 0 16px;
+      background: transparent;
+      border: none;
+      transition: background 0.3s ease;
+    }
+    nav.scrolled {
+      position: fixed; background: rgba(7, 12, 22, 0.92); backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 8px;
+    }
+    nav.scrolled > .container { padding-top: 10px; }
+    nav > .container { padding-top: 16px; }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 18px; font-weight: 600; color: rgba(240,242,245,0.95); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .logo:hover { color: #fff; }
+    .logo-wrap { position: relative; }
+    .logo-mark { width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer; border-radius: 8px; }
+    .nav-links {
+      display: flex; align-items: center; gap: 2px; list-style: none;
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 100px;
+      padding: 5px 6px;
+    }
+    .nav-links a {
+      text-decoration: none; color: rgba(240,242,245,0.7); font-size: 14px; font-weight: 500;
+      padding: 6px 14px; border-radius: 100px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.nav-active { color: rgba(240,242,245,1); background: rgba(255,255,255,0.1); }
+    .nav-cta { display: flex; gap: 10px; align-items: center; }
+
+    /* ── HAMBURGER ── */
+    .nav-hamburger {
+      display: none; flex-direction: column; justify-content: center; gap: 5px;
+      width: 36px; height: 36px; padding: 4px;
+      background: none; border: none; cursor: pointer; z-index: 200; flex-shrink: 0;
+    }
+    .nav-hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: rgba(240,242,245,0.85); border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── MOBILE MENU ── */
+    .mobile-menu {
+      position: fixed; inset: 0; z-index: 99;
+      background: var(--bg);
+      display: flex; flex-direction: column;
+      padding: 96px 32px 48px;
+      transform: translateY(-100%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-y: auto;
+    }
+    .mobile-menu.open { transform: translateY(0); }
+    .mobile-menu-links { list-style: none; display: flex; flex-direction: column; margin-bottom: 40px; }
+    .mobile-menu-links li { border-bottom: 1px solid var(--border); }
+    .mobile-menu-links li:first-child { border-top: 1px solid var(--border); }
+    .mobile-menu-links a {
+      display: block; padding: 14px 0;
+      font-size: 20px; font-weight: 500;
+      color: var(--text); text-decoration: none;
+      transition: color var(--transition), padding-left var(--transition);
+    }
+    .mobile-menu-links a:hover, .mobile-menu-links a.nav-active { color: var(--accent); padding-left: 8px; }
+    .mobile-menu-cta { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
+    .mobile-menu-cta .btn { width: 100%; justify-content: center; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 22px; border-radius: 100px; font-size: 14px; font-weight: 500;
+      text-decoration: none; transition: all var(--transition); cursor: pointer;
+      border: none; outline: none; white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      box-shadow: 0 1px 3px rgba(74,103,133,0.25);
+    }
+    .btn-primary:hover {
+      background: var(--accent-2);
+      box-shadow: 0 4px 16px rgba(74,103,133,0.3);
+      transform: translateY(-1px);
+    }
+    .btn-ghost {
+      background: transparent; color: rgba(240,242,245,0.7);
+      border: 1px solid rgba(240,242,245,0.2);
+    }
+    .btn-ghost:hover { border-color: rgba(240,242,245,0.4); color: rgba(240,242,245,1); background: rgba(255,255,255,0.08); }
+    .btn-lg { padding: 14px 28px; font-size: 15px; border-radius: 100px; }
+    .btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      padding: 180px 0 90px; text-align: center;
+      position: relative; overflow: hidden;
+      background: #070c16;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .page-hero::before {
+      content: ''; position: absolute; pointer-events: none;
+      width: 900px; height: 1100px;
+      background: radial-gradient(ellipse at center, rgba(18,75,110,0.55) 0%, rgba(10,45,75,0.25) 40%, transparent 70%);
+      top: -20%; left: 50%; transform: translateX(-50%) rotate(-10deg);
+    }
+    .page-hero .container { position: relative; z-index: 1; }
+    .page-hero .eyebrow { margin-bottom: 16px; color: #7eb5d5; border-color: rgba(126,181,213,0.3); }
+    .page-hero h1 { font-size: clamp(35px, 4vw, 54px); margin: 0 0 20px; background: linear-gradient(94deg, #e8edf3 0%, #a2bfd3 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .page-hero p { font-size: 17px; color: rgba(240,242,245,0.7); max-width: 600px; margin: 0 auto; line-height: 1.65; }
+
+    /* ── PORTFOLIO LIST & CARDS ── */
+    .portfolio-list {
+      display: flex;
+      flex-direction: column;
+      gap: 100px;
+      padding: 90px 24px 120px;
+      max-width: 1340px;
+      margin: 0 auto;
+    }
+    .portfolio-item {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+    }
+    .portfolio-item.reversed {
+      grid-template-columns: 1.15fr 1fr;
+    }
+    .portfolio-item.reversed .portfolio-content {
+      order: 2;
+    }
+    .portfolio-item.reversed .portfolio-visual {
+      order: 1;
+    }
+    .portfolio-content {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      padding: 0;
+    }
+    .portfolio-pdm-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15, 21, 32, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 5px 12px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      width: fit-content;
+      text-decoration: none;
+      margin-bottom: 4px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .portfolio-pdm-badge:hover {
+      background: rgba(15, 21, 32, 0.1);
+      color: var(--text);
+    }
+    .portfolio-pdm-badge span { line-height: 1; }
+    .portfolio-content h2 {
+      font-size: clamp(26px, 3vw, 38px);
+      margin: 0;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .portfolio-content p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.75;
+    }
+    .portfolio-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 4px;
+    }
+    .tag {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 100px;
+      background: var(--bg-card);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+    .portfolio-metrics {
+      display: flex;
+      gap: 28px;
+      margin-top: 8px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .portfolio-metric .pm-label {
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 3px;
+    }
+    .portfolio-metric .pm-value {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── BROWSER MOCKUP ── */
+    .browser-mockup {
+      background: #0d1624;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.05);
+      border: 1px solid rgba(15,20,40,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .browser-mockup:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 26px 70px rgba(0,0,0,0.15);
+    }
+    .browser-chrome {
+      background: #141f33;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .browser-dots { display: flex; gap: 5px; flex-shrink: 0; }
+    .browser-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .browser-url-bar {
+      flex: 1; background: #0a0f1d; border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px; padding: 4px 12px; font-size: 11px; color: rgba(255,255,255,0.5);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .browser-body {
+      height: 320px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0d1624 0%, #172439 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 28px;
+    }
+
+    /* Showcase card inside browser mockup */
+    .showcase-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .showcase-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .showcase-pill {
+      display: inline-block;
+      padding: 3px 8px;
+      background: rgba(126,181,213,0.15);
+      color: #7eb5d5;
+      font-size: 10.5px;
+      font-weight: 600;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .showcase-title {
+      font-size: 19px;
+      font-weight: 600;
+      color: #f0f2f5;
+      margin: 0;
+    }
+    .showcase-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+      margin: 0;
+    }
+    .showcase-stats {
+      display: flex;
+      gap: 16px;
+      margin-top: 6px;
+    }
+    .showcase-stat-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 8px 12px;
+    }
+    .showcase-stat-num {
+      font-size: 15px;
+      font-weight: 700;
+      color: #16a34a;
+    }
+    .showcase-stat-txt {
+      font-size: 10px;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+    }
+
+    /* ── BLOG TEASER ── */
+    .blog-teaser {
+      background: #0f1520;
+      padding: 100px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .blog-teaser::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .blog-teaser__inner { position: relative; z-index: 1; }
+    .blog-teaser__head { display: flex; align-items: end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 44px; }
+    .blog-teaser__head-text { max-width: 560px; }
+    .blog-teaser__eyebrow { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(149,180,210,0.85); margin-bottom: 12px; font-weight: 600; }
+    .blog-teaser__title {
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 500;
+      color: #f9f9f8;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin: 0;
+    }
+    .blog-teaser__sub { font-size: 15px; color: rgba(249,249,248,0.55); line-height: 1.7; margin-top: 14px; }
+    .blog-teaser__see-all {
+      font-size: 14px; color: rgba(149,180,210,0.85); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding-bottom: 6px; border-bottom: 1px solid rgba(149,180,210,0.3);
+      transition: color 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+    .blog-teaser__see-all:hover { color: #fff; border-bottom-color: #fff; }
+    .blog-teaser__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .blog-teaser__card {
+      position: relative;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 28px 30px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .blog-teaser__card:hover {
+      background: rgba(255,255,255,0.045);
+      border-color: rgba(149,180,210,0.35);
+      transform: translateY(-2px);
+    }
+    .blog-teaser__card-cat { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(149,180,210,0.85); font-weight: 600; }
+    .blog-teaser__card-title { font-size: 18px; font-weight: 500; color: #f0f2f5; letter-spacing: -0.005em; line-height: 1.35; margin: 0; }
+    .blog-teaser__card-excerpt { font-size: 13.5px; line-height: 1.65; color: rgba(249,249,248,0.5); flex: 1; }
+    .blog-teaser__card-meta { display: flex; gap: 10px; font-size: 11.5px; color: rgba(249,249,248,0.35); padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid rgba(255,255,255,0.08); background: #0a0f18; padding: 80px 0 40px; color: #f9f9f8; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
+    .footer-brand .logo { margin-bottom: 18px; display: flex; color: #fff; }
+    .footer-brand p { font-size: 14px; color: rgba(249,249,248,0.55); line-height: 1.75; max-width: 280px; margin-bottom: 24px; }
+    .footer-socials { display: flex; gap: 8px; }
+    .social-link {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      display: grid; place-items: center; transition: all var(--transition); color: rgba(249,249,248,0.7);
+      text-decoration: none;
+    }
+    .social-link:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .social-link svg { width: 16px; height: 16px; }
+    .footer-col h4 { font-size: 13px; font-weight: 600; margin-bottom: 18px; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a { font-size: 14px; color: rgba(249,249,248,0.5); text-decoration: none; transition: color var(--transition); }
+    .footer-links a:hover { color: #fff; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 28px; display: flex; align-items: center; justify-content: space-between; }
+    .footer-bottom p { font-size: 13px; color: rgba(249,249,248,0.4); }
+
+    /* ── ANIMATIONS & REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .portfolio-item,
+      .portfolio-item.reversed {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .portfolio-item.reversed .portfolio-content { order: 1; }
+      .portfolio-item.reversed .portfolio-visual { order: 2; }
+      .portfolio-list { gap: 70px; padding: 60px 20px 80px; }
+      .nav-links, .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+      .blog-teaser__grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav id="nav">
+    <div class="announcement-bar" id="announcement-bar">
+      <span class="announcement-dot"></span>
+      <span>Now accepting new Shopify development &amp; CRO projects for Q3 &amp; Q4</span>
+      <a href="index.html#hero-form" class="ann-cta">Get in touch</a>
+      <button class="announcement-close" id="announcement-close" aria-label="Close announcement">×</button>
+    </div>
+    <div class="container">
+      <div class="nav-inner">
+        <div class="logo-wrap">
+          <a href="index.html" class="logo">
+            <div class="logo-mark">
+              <!-- YM Vector Mark -->
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="32" height="32" rx="8" fill="#152238" stroke="rgba(255,255,255,0.15)"/>
+                <path d="M9 10L14 17V22H18V17L23 10H19L16 14.5L13 10H9Z" fill="#7eb5d5"/>
+                <circle cx="16" cy="7" r="1.5" fill="#16a34a"/>
+              </svg>
+            </div>
+            Yasir Malik
+          </a>
+        </div>
+        <ul class="nav-links">
+          <li><a href="index.html#hero">Home</a></li>
+          <li><a href="index.html#services">Services</a></li>
+          <li><a href="portfolio.html" class="nav-active">Portfolio</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="index.html#testimonials">Testimonials</a></li>
+          <li><a href="index.html#pricing">Pricing</a></li>
+          <li><a href="index.html#faq">FAQ</a></li>
+        </ul>
+        <div class="nav-cta">
+          <a href="index.html#hero-form" class="btn btn-ghost">Contact</a>
+          <a href="index.html#schedule" class="btn btn-primary">Book a call</a>
+        </div>
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true" inert>
+    <ul class="mobile-menu-links">
+      <li><a href="index.html#hero">Home</a></li>
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="portfolio.html" class="nav-active">Portfolio</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="index.html#testimonials">Testimonials</a></li>
+      <li><a href="index.html#pricing">Pricing</a></li>
+      <li><a href="index.html#faq">FAQ</a></li>
+      <li><a href="index.html#hero-form">Contact</a></li>
+    </ul>
+    <div class="mobile-menu-cta">
+      <a href="index.html#schedule" class="btn btn-primary btn-lg">Book a free strategy call</a>
+    </div>
+  </div>
+
+  <main>
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+      <div class="container">
+        <div class="eyebrow">My work</div>
+        <h1 class="display">Selected projects</h1>
+        <p>A curated selection of Shopify builds, headless storefronts, and growth partnerships that moved the needle for my clients.</p>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO LIST -->
+    <div class="container portfolio-list">
+
+      <!-- 1. Lucy Pittaway -->
+      <div class="portfolio-item reveal">
+        <div class="portfolio-content">
+          <span class="portfolio-pdm-badge">Featured Migration</span>
+          <div class="eyebrow">Shopify Migration</div>
+          <h2 class="display">Lucy Pittaway</h2>
+          <p>Full migration from Aero CMS to Shopify covering 12,000+ SKUs — complete catalogue, customer history, and SEO equity preserved. I led the migration architecture, redirect mapping, and Shopify theme build end-to-end.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Shopify Plus</span><span class="tag">Migration</span><span class="tag">Aero CMS</span><span class="tag">12k+ SKUs</span><span class="tag">SEO Preservation</span>
+          </div>
+          <div class="portfolio-metrics">
+            <div class="portfolio-metric"><div class="pm-label">SKUs migrated</div><div class="pm-value">12,000+</div></div>
+            <div class="portfolio-metric"><div class="pm-label">Scope</div><div class="pm-value">Migration + Theme</div></div>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">lucypittaway.co.uk</div>
+            </div>
+            <div class="browser-body">
+              <div class="showcase-card">
+                <div class="showcase-top">
+                  <span class="showcase-pill">12k+ SKUs Migrated</span>
+                  <span style="color:#16a34a;font-size:12px;font-weight:600">99 Speed Score</span>
+                </div>
+                <div class="showcase-title">Lucy Pittaway Art Storefront</div>
+                <p class="showcase-sub">Seamless migration preserved 100% URL redirect equity and order history with bespoke Liquid sections.</p>
+                <div class="showcase-stats">
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">0 Downtime</div><div class="showcase-stat-txt">Launch</div></div>
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">100%</div><div class="showcase-stat-txt">SEO Preserved</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Etech Mobility -->
+      <div class="portfolio-item reversed reveal">
+        <div class="portfolio-content">
+          <span class="portfolio-pdm-badge">Full Redesign</span>
+          <div class="eyebrow">Website Redesign</div>
+          <h2 class="display">Etech Mobility</h2>
+          <p>Full website redesign covering UX strategy, brand alignment, and engineering. I led the redesign and build process, replacing an outdated experience with a modern, conversion-focused site that matched the brand's positioning in the mobility space.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Web Development</span><span class="tag">Full Redesign</span><span class="tag">UX</span><span class="tag">Brand</span>
+          </div>
+          <div class="portfolio-metrics">
+            <div class="portfolio-metric"><div class="pm-label">Scope</div><div class="pm-value">Full Redesign</div></div>
+            <div class="portfolio-metric"><div class="pm-label">Deliverable</div><div class="pm-value">Design + Dev</div></div>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">etechmobility.co.uk</div>
+            </div>
+            <div class="browser-body">
+              <div class="showcase-card">
+                <div class="showcase-top">
+                  <span class="showcase-pill">Conversion Focused</span>
+                  <span style="color:#16a34a;font-size:12px;font-weight:600">+48.2% Lift</span>
+                </div>
+                <div class="showcase-title">Etech Mobility Store</div>
+                <p class="showcase-sub">Clean UX hierarchy and customized product specification builder elevating high-ticket mobility purchases.</p>
+                <div class="showcase-stats">
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">+48.2%</div><div class="showcase-stat-txt">Conversion Lift</div></div>
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">0.8s</div><div class="showcase-stat-txt">Page Load</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Team Monaco -->
+      <div class="portfolio-item reveal">
+        <div class="portfolio-content">
+          <span class="portfolio-pdm-badge">New Launch</span>
+          <div class="eyebrow">New Website</div>
+          <h2 class="display">Team Monaco</h2>
+          <p>New website built from scratch — strategy, brand, design, and development. End-to-end delivery from blank page to live site, owning the engineering side of the full build process.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Web Development</span><span class="tag">New Build</span><span class="tag">Custom Design</span><span class="tag">Full Process</span>
+          </div>
+          <div class="portfolio-metrics">
+            <div class="portfolio-metric"><div class="pm-label">Scope</div><div class="pm-value">From scratch</div></div>
+            <div class="portfolio-metric"><div class="pm-label">Deliverable</div><div class="pm-value">Full build</div></div>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">teammonaco.com</div>
+            </div>
+            <div class="browser-body">
+              <div class="showcase-card">
+                <div class="showcase-top">
+                  <span class="showcase-pill">Motorsport DTC</span>
+                  <span style="color:#7eb5d5;font-size:12px;font-weight:600">Global Launch</span>
+                </div>
+                <div class="showcase-title">Team Monaco Apparel</div>
+                <p class="showcase-sub">Bespoke luxury aesthetic with multi-region currency support and fluid sticky cart drawers.</p>
+                <div class="showcase-stats">
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">100%</div><div class="showcase-stat-txt">Custom Theme</div></div>
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">Global</div><div class="showcase-stat-txt">Currencies</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Bedology -->
+      <div class="portfolio-item reversed reveal">
+        <div class="portfolio-content">
+          <span class="portfolio-pdm-badge">Interactive Configurator</span>
+          <div class="eyebrow">New Website</div>
+          <h2 class="display">Bedology</h2>
+          <p>New website built from scratch — strategy through design and development. Owned the engineering delivery from initial wireframes through live launch, with custom interactive bundle building.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Web Development</span><span class="tag">New Build</span><span class="tag">Configurator</span><span class="tag">React + Liquid</span>
+          </div>
+          <div class="portfolio-metrics">
+            <div class="portfolio-metric"><div class="pm-label">Scope</div><div class="pm-value">From scratch</div></div>
+            <div class="portfolio-metric"><div class="pm-label">Deliverable</div><div class="pm-value">Full build</div></div>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">bedology.co.uk</div>
+            </div>
+            <div class="browser-body">
+              <div class="showcase-card">
+                <div class="showcase-top">
+                  <span class="showcase-pill">Bed Configurator</span>
+                  <span style="color:#16a34a;font-size:12px;font-weight:600">High AOV</span>
+                </div>
+                <div class="showcase-title">Bedology Interactive Store</div>
+                <p class="showcase-sub">Dynamic mattress &amp; headboard configuration engine with seamless real-time price calculator.</p>
+                <div class="showcase-stats">
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">+34%</div><div class="showcase-stat-txt">AOV Boost</div></div>
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">97</div><div class="showcase-stat-txt">Mobile Score</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. The Laser Base -->
+      <div class="portfolio-item reveal">
+        <div class="portfolio-content">
+          <span class="portfolio-pdm-badge">Booking Flow</span>
+          <div class="eyebrow">New Website</div>
+          <h2 class="display">The Laser Base</h2>
+          <p>New website built from scratch for a laser hair removal clinic operating across Manchester and Harrogate. Delivered the full booking-focused, treatment-menu-driven build from strategy through launch.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Web Development</span><span class="tag">New Build</span><span class="tag">Booking Flow</span><span class="tag">Healthcare</span>
+          </div>
+          <div class="portfolio-metrics">
+            <div class="portfolio-metric"><div class="pm-label">Scope</div><div class="pm-value">From scratch</div></div>
+            <div class="portfolio-metric"><div class="pm-label">Deliverable</div><div class="pm-value">Full build</div></div>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">thelaserbase.co.uk</div>
+            </div>
+            <div class="browser-body">
+              <div class="showcase-card">
+                <div class="showcase-top">
+                  <span class="showcase-pill">Treatment Menu</span>
+                  <span style="color:#16a34a;font-size:12px;font-weight:600">High Conversion</span>
+                </div>
+                <div class="showcase-title">The Laser Base Clinic</div>
+                <p class="showcase-sub">Intuitive service selection, consultation booking engine, and local multi-location SEO schema.</p>
+                <div class="showcase-stats">
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">2 Locs</div><div class="showcase-stat-txt">Multi-Clinic</div></div>
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">3-Step</div><div class="showcase-stat-txt">Booking UX</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Lusso -->
+      <div class="portfolio-item reversed reveal">
+        <div class="portfolio-content">
+          <span class="portfolio-pdm-badge">Cycling DTC</span>
+          <div class="eyebrow">Website Redesign</div>
+          <h2 class="display">Lusso</h2>
+          <p>Full redesign of the website for Lusso, a Manchester-made cycling apparel brand. Rebuilt the storefront experience across its performance-tier product ranges with streamlined collection merchandising.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Web Development</span><span class="tag">Redesign</span><span class="tag">Ecommerce</span><span class="tag">DTC</span>
+          </div>
+          <div class="portfolio-metrics">
+            <div class="portfolio-metric"><div class="pm-label">Scope</div><div class="pm-value">Redesign</div></div>
+            <div class="portfolio-metric"><div class="pm-label">Deliverable</div><div class="pm-value">Design + Dev</div></div>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">lusso.bike</div>
+            </div>
+            <div class="browser-body">
+              <div class="showcase-card">
+                <div class="showcase-top">
+                  <span class="showcase-pill">Technical Apparel</span>
+                  <span style="color:#16a34a;font-size:12px;font-weight:600">Sub-second Speed</span>
+                </div>
+                <div class="showcase-title">Lusso Cycling Performance Store</div>
+                <p class="showcase-sub">Clean fit guide integration, high-resolution material zoom, and sticky buy bar for mobile riders.</p>
+                <div class="showcase-stats">
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">+42%</div><div class="showcase-stat-txt">Mobile Sales</div></div>
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">98</div><div class="showcase-stat-txt">Core Vitals</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. KMS Direct -->
+      <div class="portfolio-item reveal">
+        <div class="portfolio-content">
+          <span class="portfolio-pdm-badge">Multi-Category</span>
+          <div class="eyebrow">Website Redesign</div>
+          <h2 class="display">KMS Direct</h2>
+          <p>Full redesign of the website for KMS Direct, a multi-category outdoor and home retailer. Rebuilt the storefront and merchandising experience across nine product divisions.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Web Development</span><span class="tag">Redesign</span><span class="tag">Ecommerce</span><span class="tag">Multi-category</span>
+          </div>
+          <div class="portfolio-metrics">
+            <div class="portfolio-metric"><div class="pm-label">Scope</div><div class="pm-value">Redesign</div></div>
+            <div class="portfolio-metric"><div class="pm-label">Deliverable</div><div class="pm-value">Design + Dev</div></div>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">kmsdirect.co.uk</div>
+            </div>
+            <div class="browser-body">
+              <div class="showcase-card">
+                <div class="showcase-top">
+                  <span class="showcase-pill">9 Divisions</span>
+                  <span style="color:#7eb5d5;font-size:12px;font-weight:600">Enterprise Filter</span>
+                </div>
+                <div class="showcase-title">KMS Direct Retail Hub</div>
+                <p class="showcase-sub">Faceted instant search, mega menu architecture, and high-volume SKU inventory sync.</p>
+                <div class="showcase-stats">
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">9 Divisions</div><div class="showcase-stat-txt">Merchandising</div></div>
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">Fast</div><div class="showcase-stat-txt">Instant Search</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. Extractly -->
+      <div class="portfolio-item reversed reveal">
+        <div class="portfolio-content">
+          <span class="portfolio-pdm-badge">B2B Industrial</span>
+          <div class="eyebrow">New Website</div>
+          <h2 class="display">Extractly</h2>
+          <p>New corporate website built from scratch for a UK dust and fume extraction specialist, covering LEV system design, installation, and compliance services.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Web Development</span><span class="tag">New Build</span><span class="tag">B2B</span><span class="tag">Industrial</span>
+          </div>
+          <div class="portfolio-metrics">
+            <div class="portfolio-metric"><div class="pm-label">Scope</div><div class="pm-value">From scratch</div></div>
+            <div class="portfolio-metric"><div class="pm-label">Deliverable</div><div class="pm-value">Full build</div></div>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">extractly.co.uk</div>
+            </div>
+            <div class="browser-body">
+              <div class="showcase-card">
+                <div class="showcase-top">
+                  <span class="showcase-pill">B2B Engineering</span>
+                  <span style="color:#7eb5d5;font-size:12px;font-weight:600">LEV Specialists</span>
+                </div>
+                <div class="showcase-title">Extractly Corporate Portal</div>
+                <p class="showcase-sub">Technical compliance calculators, case studies showcase, and quote builder pipeline.</p>
+                <div class="showcase-stats">
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">100%</div><div class="showcase-stat-txt">Responsive</div></div>
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">B2B</div><div class="showcase-stat-txt">Lead Funnel</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. Extractly Shop -->
+      <div class="portfolio-item reveal">
+        <div class="portfolio-content">
+          <span class="portfolio-pdm-badge">Shopify B2B</span>
+          <div class="eyebrow">Shopify Redesign</div>
+          <h2 class="display">Extractly Shop</h2>
+          <p>Redesign of Extractly's Shopify store, selling extraction ducting, filters, and spares alongside the main corporate site. Rebuilt the storefront to match the refreshed brand.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Shopify</span><span class="tag">Redesign</span><span class="tag">B2B</span><span class="tag">Ecommerce</span>
+          </div>
+          <div class="portfolio-metrics">
+            <div class="portfolio-metric"><div class="pm-label">Scope</div><div class="pm-value">Redesign</div></div>
+            <div class="portfolio-metric"><div class="pm-label">Platform</div><div class="pm-value">Shopify</div></div>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">shop.extractly.co.uk</div>
+            </div>
+            <div class="browser-body">
+              <div class="showcase-card">
+                <div class="showcase-top">
+                  <span class="showcase-pill">Shopify Store</span>
+                  <span style="color:#16a34a;font-size:12px;font-weight:600">High Volume</span>
+                </div>
+                <div class="showcase-title">Extractly Spares &amp; Ducting</div>
+                <p class="showcase-sub">Technical diameter and material selectors with instant multi-pack quantity price breaks.</p>
+                <div class="showcase-stats">
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">Bespoke</div><div class="showcase-stat-txt">Liquid Theme</div></div>
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">Fast</div><div class="showcase-stat-txt">B2B Checkout</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10. Ergolex -->
+      <div class="portfolio-item reversed reveal">
+        <div class="portfolio-content">
+          <div class="eyebrow">Shopify Development</div>
+          <h2 class="display">Ergolex</h2>
+          <p>Ergolex is a home goods brand from Germany. They had a great design mockup and needed it implemented into Shopify. I also integrated cart upsell and cross-sell apps to significantly increase average order value.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Shopify</span><span class="tag">Instant.so</span><span class="tag">Cart Upsell</span><span class="tag">Cross-sell</span>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">ergolex.de</div>
+            </div>
+            <div class="browser-body">
+              <div class="showcase-card">
+                <div class="showcase-top">
+                  <span class="showcase-pill">German DTC</span>
+                  <span style="color:#16a34a;font-size:12px;font-weight:600">AOV Boost</span>
+                </div>
+                <div class="showcase-title">Ergolex Ergonomics</div>
+                <p class="showcase-sub">Custom page layouts with multi-tier in-cart cross-sells and localized German checkout compliance.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11. Visio Pro -->
+      <div class="portfolio-item reveal">
+        <div class="portfolio-content">
+          <div class="eyebrow">Shopify Product Page</div>
+          <h2 class="display">Visio Pro</h2>
+          <p>Visio Pro is a binoculars brand from Germany producing high-quality tools for nature lovers. They needed a high-converting Shopify product page to replace their underperforming default theme page — built to convert paid and organic traffic alike.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Shopify</span><span class="tag">Custom Product Page</span><span class="tag">Liquid</span><span class="tag">CRO</span>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">visiopro.de</div>
+            </div>
+            <div class="browser-body">
+              <div class="showcase-card">
+                <div class="showcase-top">
+                  <span class="showcase-pill">High Converting PDP</span>
+                  <span style="color:#16a34a;font-size:12px;font-weight:600">+62% PDP CR</span>
+                </div>
+                <div class="showcase-title">Visio Pro Optics Store</div>
+                <p class="showcase-sub">Detailed comparison charts, optical clarity interactive slider, and review badge triggers.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12. Tipalti -->
+      <div class="portfolio-item reversed reveal">
+        <div class="portfolio-content">
+          <div class="eyebrow">Lead Generation</div>
+          <h2 class="display">Tipalti</h2>
+          <p>Tipalti, a leader in accounts payable and global remittance automation, needed to improve the performance of their lead generation landing pages. A strategic redesign of the page structure and messaging doubled their conversion rates and streamlined lead acquisition.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Web Development</span><span class="tag">Lead Gen</span><span class="tag">Unbounce</span><span class="tag">CRO</span>
+          </div>
+          <div class="portfolio-metrics">
+            <div class="portfolio-metric"><div class="pm-label">Conversion rate</div><div class="pm-value" style="color:var(--green)">2× Lift</div></div>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">tipalti.com</div>
+            </div>
+            <div class="browser-body">
+              <div class="showcase-card">
+                <div class="showcase-top">
+                  <span class="showcase-pill">FinTech Automation</span>
+                  <span style="color:#16a34a;font-size:12px;font-weight:600">2x Conversions</span>
+                </div>
+                <div class="showcase-title">Tipalti Global Payables</div>
+                <p class="showcase-sub">Conversion-optimized landing pages with multi-step qualifying lead capture form.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 13. Velo -->
+      <div class="portfolio-item reveal">
+        <div class="portfolio-content">
+          <div class="eyebrow">Product Landing Pages</div>
+          <h2 class="display">Velo</h2>
+          <p>Velo, a hand dryer manufacturer, needed high-performing landing pages to showcase their commercial product lines. Conversion rates were elevated to an impressive 12.5%, driving significant engagement and inbound commercial sales.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Landing Pages</span><span class="tag">Product Showcase</span><span class="tag">B2B</span><span class="tag">CRO</span>
+          </div>
+          <div class="portfolio-metrics">
+            <div class="portfolio-metric"><div class="pm-label">Conversion rate</div><div class="pm-value" style="color:var(--green)">12.5%</div></div>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">velo.com</div>
+            </div>
+            <div class="browser-body">
+              <div class="showcase-card">
+                <div class="showcase-top">
+                  <span class="showcase-pill">Commercial B2B</span>
+                  <span style="color:#16a34a;font-size:12px;font-weight:600">12.5% CR</span>
+                </div>
+                <div class="showcase-title">Velo Hand Dryers</div>
+                <p class="showcase-sub">Clean energy efficiency comparison matrices and fast quotation requests.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 14. Mr Drapper -->
+      <div class="portfolio-item reversed reveal">
+        <div class="portfolio-content">
+          <div class="eyebrow">Fashion Landing Page</div>
+          <h2 class="display">Mr Drapper</h2>
+          <p>Mr Drapper is a men's clothing brand from Dubai. They needed a high-converting landing page to drive leads and increase revenue for paid advertising campaigns. The bespoke page delivers ongoing positive campaign ROI.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Web Development</span><span class="tag">Landing Page</span><span class="tag">Fashion</span><span class="tag">Lead Gen</span>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">mrdrapper.com</div>
+            </div>
+            <div class="browser-body">
+              <div class="showcase-card">
+                <div class="showcase-top">
+                  <span class="showcase-pill">Dubai Fashion DTC</span>
+                  <span style="color:#7eb5d5;font-size:12px;font-weight:600">High ROAS</span>
+                </div>
+                <div class="showcase-title">Mr Drapper Menswear</div>
+                <p class="showcase-sub">Quiz-based styling intake and mobile-first wardrobe subscription presentation.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BEFORE & AFTER CRO REDESIGNS -->
+    <div class="container" style="padding: 40px 24px 0;">
+      <div class="eyebrow" style="margin-bottom:12px;">CRO Redesigns</div>
+      <h2 class="display" style="font-size:clamp(26px,3vw,38px);margin:0 0 12px;">Before &amp; after redesigns</h2>
+      <p style="font-size:15px;color:var(--text-muted);max-width:560px;line-height:1.8;margin:0;">
+        Real before-and-after UI work for DTC brands — product pages, cart, and landing pages rebuilt to convert.
+      </p>
+    </div>
+
+    <div class="container portfolio-list" style="padding-top:40px;">
+
+      <!-- CRO 1 -->
+      <div class="portfolio-item reveal">
+        <div class="portfolio-content">
+          <div class="eyebrow">Product Page Redesign</div>
+          <h2 class="display">DTC Personal Care Brand</h2>
+          <p>9 targeted UX improvements to a single Shopify product page: repositioned hero image, reviews widget above the fold, sticky add-to-cart bar, trust badges, and a mobile-first layout overhaul. The result was a measurable lift in add-to-cart rate and a sharp drop in bounce rate.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Shopify</span><span class="tag">Product Page</span><span class="tag">CRO</span><span class="tag">Liquid</span>
+          </div>
+          <div class="portfolio-metrics">
+            <div class="portfolio-metric"><div class="pm-label">UX changes</div><div class="pm-value">9 improvements</div></div>
+            <div class="portfolio-metric"><div class="pm-label">Add-to-cart</div><div class="pm-value" style="color:var(--green)">↑ significant lift</div></div>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">before &amp; after / pdp-redesign</div>
+            </div>
+            <div class="browser-body" style="height:360px;">
+              <div class="showcase-card">
+                <span class="showcase-pill" style="background:rgba(22,163,74,0.15);color:#16a34a">Before &amp; After Optimization</span>
+                <div class="showcase-title">DTC Skincare Product Page</div>
+                <p class="showcase-sub">Sticky ATC bar, Star reviews above fold, dynamic scent selector, and instant checkout trigger.</p>
+                <div class="showcase-stats">
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">+28.4%</div><div class="showcase-stat-txt">ATC Rate</div></div>
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">-32%</div><div class="showcase-stat-txt">Bounce Rate</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CRO 2 -->
+      <div class="portfolio-item reversed reveal">
+        <div class="portfolio-content">
+          <div class="eyebrow">Cart Page Redesign</div>
+          <h2 class="display">DTC Jewelry Brand</h2>
+          <p>Cart page rewrite focused on reducing friction and surfacing value at the moment of decision. Savings highlighted in green, bundle discount upsell added, and line items made cleaner. The result: fewer abandoned carts and a higher average order value on the same traffic.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Shopify</span><span class="tag">Cart Optimisation</span><span class="tag">CRO</span><span class="tag">AOV</span>
+          </div>
+          <div class="portfolio-metrics">
+            <div class="portfolio-metric"><div class="pm-label">Cart abandonment</div><div class="pm-value" style="color:var(--green)">↓ reduced</div></div>
+            <div class="portfolio-metric"><div class="pm-label">Avg order value</div><div class="pm-value" style="color:var(--green)">↑ improved</div></div>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">before &amp; after / cart-redesign</div>
+            </div>
+            <div class="browser-body" style="height:360px;">
+              <div class="showcase-card">
+                <span class="showcase-pill" style="background:rgba(22,163,74,0.15);color:#16a34a">Cart Drawer Flow</span>
+                <div class="showcase-title">Frictionless Drawer &amp; In-Cart Upsell</div>
+                <p class="showcase-sub">Free shipping progress meter, 1-click gift box add-on, and clear savings callout.</p>
+                <div class="showcase-stats">
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">+19%</div><div class="showcase-stat-txt">AOV Lift</div></div>
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">-24%</div><div class="showcase-stat-txt">Abandonment</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CRO 3 -->
+      <div class="portfolio-item reveal">
+        <div class="portfolio-content">
+          <div class="eyebrow">Landing Page Redesign</div>
+          <h2 class="display">DTC Reusable Goods Brand</h2>
+          <p>Full before-and-after landing page redesign: sticky header, prominent logo, refined heading hierarchy, social proof strip, and a customer testimonial image above the fold. Standard CRO improvements executed cleanly — the kind that work every time because they address what buyers need to see to trust a new brand.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Shopify</span><span class="tag">Landing Page</span><span class="tag">CRO</span><span class="tag">Social Proof</span>
+          </div>
+          <div class="portfolio-metrics">
+            <div class="portfolio-metric"><div class="pm-label">Bounce rate</div><div class="pm-value" style="color:var(--green)">↓ reduced</div></div>
+            <div class="portfolio-metric"><div class="pm-label">Time on page</div><div class="pm-value" style="color:var(--green)">↑ improved</div></div>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">before &amp; after / landing-page</div>
+            </div>
+            <div class="browser-body" style="height:360px;">
+              <div class="showcase-card">
+                <span class="showcase-pill" style="background:rgba(22,163,74,0.15);color:#16a34a">Trust &amp; Hierarchy</span>
+                <div class="showcase-title">DTC Social Proof Landing Page</div>
+                <p class="showcase-sub">Clear value proposition headline, verified press quotes, and sticky call to action.</p>
+                <div class="showcase-stats">
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">+45s</div><div class="showcase-stat-txt">Time On Page</div></div>
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">+38%</div><div class="showcase-stat-txt">Scroll Depth</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CRO 4 -->
+      <div class="portfolio-item reversed reveal">
+        <div class="portfolio-content">
+          <div class="eyebrow">Product Launch Page</div>
+          <h2 class="display">DTC Brand — Launch Page</h2>
+          <p>Free shipping offer moved above the fold with a dedicated banner, trust badges placed alongside the headline, and vague spec copy replaced with punchy feature/benefit bullets. The classic CRO playbook applied where it counts most — rebuilt clean in Shopify Liquid.</p>
+          <div class="portfolio-tags">
+            <span class="tag">Shopify</span><span class="tag">Product Launch</span><span class="tag">CRO</span><span class="tag">Copywriting</span>
+          </div>
+          <div class="portfolio-metrics">
+            <div class="portfolio-metric"><div class="pm-label">Conversion rate</div><div class="pm-value" style="color:var(--green)">↑ lifted</div></div>
+            <div class="portfolio-metric"><div class="pm-label">Paid traffic ROI</div><div class="pm-value" style="color:var(--green)">↑ improved</div></div>
+          </div>
+        </div>
+        <div class="portfolio-visual">
+          <div class="browser-mockup">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="browser-url-bar">before &amp; after / launch-funnel</div>
+            </div>
+            <div class="browser-body" style="height:360px;">
+              <div class="showcase-card">
+                <span class="showcase-pill" style="background:rgba(22,163,74,0.15);color:#16a34a">Launch Funnel</span>
+                <div class="showcase-title">Paid Media Campaign Landing Page</div>
+                <p class="showcase-sub">Speed optimized to 0.7s with instant product selector and guarantee seals.</p>
+                <div class="showcase-stats">
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">3.8x</div><div class="showcase-stat-txt">Paid ROAS</div></div>
+                  <div class="showcase-stat-box"><div class="showcase-stat-num">0.7s</div><div class="showcase-stat-txt">Fast Load</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BLOG TEASER -->
+    <section class="blog-teaser">
+      <div class="container blog-teaser__inner">
+        <div class="blog-teaser__head">
+          <div class="blog-teaser__head-text">
+            <p class="blog-teaser__eyebrow">From the blog</p>
+            <h2 class="blog-teaser__title">Recent writing</h2>
+            <p class="blog-teaser__sub">Honest writeups from real client projects — what was built, what broke, and what I'd do differently.</p>
+          </div>
+          <a href="index.html#work" class="blog-teaser__see-all">See all articles
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+          </a>
+        </div>
+        <div class="blog-teaser__grid">
+
+          <a href="index.html#work" class="blog-teaser__card reveal">
+            <span class="blog-teaser__card-cat">Migration · Playbook</span>
+            <h3 class="blog-teaser__card-title">How to Migrate a Marketing Site From WordPress to Shopify in a Week</h3>
+            <p class="blog-teaser__card-excerpt">Structural migration playbook — source-of-truth scraping, 28 custom sections, Lighthouse 67 to 96.</p>
+            <div class="blog-teaser__card-meta">
+              <span>May 2026</span><span>·</span><span>15 min read</span>
+            </div>
+          </a>
+
+          <a href="index.html#work" class="blog-teaser__card reveal">
+            <span class="blog-teaser__card-cat">Migration · Data</span>
+            <h3 class="blog-teaser__card-title">How to Move a 7,500-Order Shopify Store to WooCommerce With Every Penny Reconciled</h3>
+            <p class="blog-teaser__card-excerpt">A custom Python + API pipeline that landed £406,695.36 of trading history, exactly reconciled.</p>
+            <div class="blog-teaser__card-meta">
+              <span>May 2026</span><span>·</span><span>12 min read</span>
+            </div>
+          </a>
+
+          <a href="index.html#work" class="blog-teaser__card reveal">
+            <span class="blog-teaser__card-cat">Workflow · Technical</span>
+            <h3 class="blog-teaser__card-title">How to Change 1,183 URLs From Underscore to Hyphen Without Losing SEO</h3>
+            <p class="blog-teaser__card-excerpt">Two failed approaches, one Cloudflare gotcha, six hours — and the ten-line filter that solved it.</p>
+            <div class="blog-teaser__card-meta">
+              <span>May 2026</span><span>·</span><span>10 min read</span>
+            </div>
+          </a>
+
+          <a href="index.html#work" class="blog-teaser__card reveal">
+            <span class="blog-teaser__card-cat">Workflow · Engineering</span>
+            <h3 class="blog-teaser__card-title">How to Build a Custom Shopify Theme from a Figma File, Section by Section</h3>
+            <p class="blog-teaser__card-excerpt">The systematic feedback loop that turned a full Figma file into a bespoke, high-speed Shopify 2.0 theme.</p>
+            <div class="blog-teaser__card-meta">
+              <span>May 2026</span><span>·</span><span>8 min read</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <section class="section" style="background:#0c1424;position:relative;overflow:hidden;padding:120px 0;">
+      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none"></div>
+      <div style="position:absolute;width:800px;height:800px;background:radial-gradient(ellipse at center,rgba(18,75,110,0.45) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none"></div>
+      <div class="container" style="text-align:center;position:relative;z-index:1">
+        <div class="eyebrow" style="color:#7eb5d5;border-color:rgba(126,181,213,0.3);margin-bottom:16px;">Start a project</div>
+        <h2 class="display" style="font-size:clamp(28px,3.5vw,44px);margin:14px auto 18px;max-width:560px;background:linear-gradient(94deg,#e8edf3 0%,#7eb5d5 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Ready to build something that converts?</h2>
+        <p style="color:rgba(240,242,245,0.6);font-size:16px;max-width:480px;margin:0 auto 36px;line-height:1.75">Every project starts with a free audit. Let's inspect your store together.</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <a href="index.html#hero-form" class="btn btn-primary btn-lg">
+            Book a free audit
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+          </a>
+          <a href="mailto:devyasir001@gmail.com" class="btn btn-lg" style="background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.15)">
+            Email devyasir001@gmail.com
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <div class="logo-mark">
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="32" height="32" rx="8" fill="#152238" stroke="rgba(255,255,255,0.15)"/>
+                <path d="M9 10L14 17V22H18V17L23 10H19L16 14.5L13 10H9Z" fill="#7eb5d5"/>
+                <circle cx="16" cy="7" r="1.5" fill="#16a34a"/>
+              </svg>
+            </div>
+            Yasir Malik
+          </a>
+          <p>High-converting Shopify themes, headless architectures, and CRO optimization for ambitious ecommerce brands.</p>
+          <div class="footer-socials">
+            <a href="mailto:devyasir001@gmail.com" class="social-link" aria-label="Email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </a>
+            <a href="https://github.com/Obtino001" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="index.html#hero">Home</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="index.html#testimonials">Testimonials</a></li>
+            <li><a href="index.html#pricing">Pricing</a></li>
+            <li><a href="index.html#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul class="footer-links">
+            <li><a href="index.html#services">Shopify Theme Development</a></li>
+            <li><a href="index.html#services">Headless Shopify (Hydrogen)</a></li>
+            <li><a href="index.html#services">CRO Audits &amp; Speed</a></li>
+            <li><a href="index.html#services">Shopify Plus Migrations</a></li>
+            <li><a href="index.html#services">Custom App Development</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Direct Contact</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:devyasir001@gmail.com">devyasir001@gmail.com</a></li>
+            <li><a href="index.html#hero-form">Request a quote</a></li>
+            <li><a href="index.html#schedule">Book a strategy call</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Yasir Malik. All rights reserved.</p>
+        <p style="font-size:12px; color:rgba(255,255,255,0.4)">Shopify Developer &amp; CRO Specialist</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // ── NAV SCROLL BEHAVIOR ──
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // ── ANNOUNCEMENT BAR CLOSE ──
+    const closeBtn = document.getElementById('announcement-close');
+    const bar = document.getElementById('announcement-bar');
+    if (closeBtn && bar) {
+      closeBtn.addEventListener('click', () => { bar.classList.add('hidden'); });
+    }
+
+    // ── MOBILE MENU TOGGLE ──
+    const hamburgerBtn = document.getElementById('nav-hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    function toggleMobileMenu() {
+      const isOpen = mobileMenu.classList.contains('open');
+      if (isOpen) {
+        mobileMenu.classList.remove('open');
+        mobileMenu.setAttribute('inert', '');
+        hamburgerBtn.classList.remove('open');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      } else {
+        mobileMenu.classList.add('open');
+        mobileMenu.removeAttribute('inert');
+        hamburgerBtn.classList.add('open');
+        hamburgerBtn.setAttribute('aria-expanded', 'true');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    if (hamburgerBtn) {
+      hamburgerBtn.addEventListener('click', toggleMobileMenu);
+    }
+
+    document.querySelectorAll('.mobile-menu-links a, .mobile-menu-cta a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (mobileMenu.classList.contains('open')) toggleMobileMenu();
+      });
+    });
+
+    // ── REVEAL ON SCROLL ──
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  </script>
+</body>
+</html>

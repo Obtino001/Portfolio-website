@@ -1,0 +1,2625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopify Insights &amp; Engineering Blog | Yasir Malik</title>
+  <meta name="description" content="Practical guides on Shopify performance, conversion rate optimization, Liquid development, and migrations — written from 9+ years of hands-on engineering experience.">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Shopify Insights &amp; Engineering Blog | Yasir Malik">
+  <meta property="og:description" content="Practical guides on Shopify performance, conversion optimization, development, and migrations — written from 9+ years of hands-on experience, not theory.">
+  <meta property="og:site_name" content="Yasir Malik Portfolio">
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230f1520'/><path d='M10 8l6 10 6-10h4l-8 14v4h-4v-4L6 8z' fill='%234a6785'/><circle cx='16' cy='12' r='2' fill='%2316a34a'/></svg>">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #edf1f7;
+      --bg-2: #e4e9f2;
+      --bg-3: #d6dce8;
+      --bg-card: #ffffff;
+      --border: rgba(15,20,40,0.08);
+      --border-hover: rgba(15,20,40,0.18);
+      --text: #111827;
+      --text-muted: #475569;
+      --text-dim: #556070;
+      --accent: #4a6785;
+      --accent-2: #3a5570;
+      --accent-glow: rgba(74,103,133,0.12);
+      --green: #16a34a;
+      --radius: 20px;
+      --radius-sm: 100px;
+      --transition: 0.2s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.5em;
+      letter-spacing: -0.32px;
+      overflow-x: hidden;
+      font-synthesis: none;
+    }
+    p { font-size: 16px; line-height: 1.5em; letter-spacing: -0.32px; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-2); }
+    ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 3px; }
+
+    /* ── TYPOGRAPHY ── */
+    h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; line-height: 1.2em; letter-spacing: -0.02em; margin: 0 0 24px; }
+    h1 { font-size: clamp(35px, 3.333vw, 48px); letter-spacing: -1.28px; }
+    strong, b, th { font-weight: 600; }
+    .display { font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(32px, 4vw, 50px); line-height: 1.25em; letter-spacing: -0.03em; }
+    .eyebrow {
+      display: inline-block;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 100px;
+      padding: 4px 12px;
+      width: fit-content;
+    }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1340px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 120px 0; position: relative; }
+
+    /* ── ANNOUNCEMENT BAR ── */
+    .announcement-bar {
+      background: rgba(5,9,20,0.94);
+      backdrop-filter: blur(8px);
+      height: 38px; display: flex; align-items: center; justify-content: center; gap: 8px;
+      font-size: 12px; color: rgba(255,255,255,0.7);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      position: relative; white-space: nowrap; overflow: hidden;
+      padding: 0 48px;
+    }
+    .announcement-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .announcement-bar a {
+      color: rgba(255,255,255,0.92); text-decoration: none; font-style: normal; font-weight: 500;
+      padding: 2px 10px; background: rgba(255,255,255,0.1); border-radius: 100px;
+      margin-left: 2px; transition: background 0.2s;
+    }
+    .announcement-bar a:hover { background: rgba(255,255,255,0.18); }
+    .announcement-close {
+      position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: rgba(255,255,255,0.4);
+      cursor: pointer; padding: 4px 8px; font-size: 14px; line-height: 1;
+      transition: color 0.2s;
+    }
+    .announcement-close:hover { color: rgba(255,255,255,0.8); }
+    .announcement-bar.hidden { display: none; }
+
+    /* ── NAVIGATION ── */
+    nav {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(15,21,32,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(10,15,25,0.98);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+    }
+    .logo-wrap { position: relative; display: flex; align-items: center; }
+    .logo {
+      font-size: 18px; font-weight: 700; color: #fff;
+      text-decoration: none; letter-spacing: -0.02em;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .logo-mark {
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: transform 0.2s ease;
+    }
+    .logo:hover .logo-mark { transform: scale(1.05); }
+    .nav-links {
+      display: flex; align-items: center; gap: 32px; list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px; color: rgba(240,242,245,0.65);
+      text-decoration: none; transition: color var(--transition);
+      font-weight: 500;
+    }
+    .nav-links a:hover, .nav-links a.nav-active { color: #ffffff; font-weight: 600; }
+    .nav-cta { display: flex; align-items: center; gap: 12px; }
+    .nav-hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .nav-hamburger span {
+      width: 22px; height: 2px; background: #fff;
+      border-radius: 2px; transition: 0.3s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      position: fixed; top: 110px; left: 0; right: 0; bottom: 0;
+      background: #0f1520; z-index: 999;
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 40px 24px;
+      opacity: 0; pointer-events: none; transform: translateY(-10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .mobile-menu.open {
+      opacity: 1; pointer-events: all; transform: translateY(0);
+    }
+    .mobile-menu-links { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+    .mobile-menu-links a { font-size: 20px; color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; }
+    .mobile-menu-links a:hover, .mobile-menu-links a.nav-active { color: #fff; font-weight: 600; }
+    .mobile-menu-cta { margin-top: 30px; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: var(--radius-sm);
+      font-size: 14px; font-weight: 600; text-decoration: none;
+      transition: all var(--transition); cursor: pointer;
+      border: none; white-space: nowrap; line-height: 1;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      box-shadow: 0 2px 10px rgba(74,103,133,0.25);
+    }
+    .btn-primary:hover {
+      background: var(--accent-2);
+      box-shadow: 0 4px 16px rgba(74,103,133,0.3);
+      transform: translateY(-1px);
+    }
+    .btn-ghost {
+      background: transparent; color: rgba(240,242,245,0.7);
+      border: 1px solid rgba(240,242,245,0.2);
+    }
+    .btn-ghost:hover { border-color: rgba(240,242,245,0.4); color: rgba(240,242,245,1); background: rgba(255,255,255,0.08); }
+    .btn-lg { padding: 14px 28px; font-size: 15px; border-radius: 100px; }
+    .btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    /* ── BLOG HERO ── */
+    .blog-hero {
+      padding: 160px 0 80px; text-align: center;
+      position: relative; overflow: hidden;
+      background: #070c16;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .blog-hero::before {
+      content: ''; position: absolute; pointer-events: none;
+      width: 900px; height: 1100px;
+      background: radial-gradient(ellipse at center, rgba(18,75,110,0.55) 0%, rgba(10,45,75,0.25) 40%, transparent 70%);
+      top: -20%; left: 50%; transform: translateX(-50%) rotate(-10deg);
+    }
+    .blog-hero .container { position: relative; z-index: 1; }
+    .blog-hero .eyebrow { margin-bottom: 16px; color: rgba(149,180,210,0.85); border-color: rgba(149,180,210,0.3); }
+    .blog-hero__title {
+      font-size: clamp(34px, 4vw, 54px);
+      margin: 0 0 20px;
+      background: linear-gradient(94deg, #e8edf3 0%, #a2bfd3 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.15;
+    }
+    .blog-hero__sub {
+      font-size: 17px;
+      color: rgba(240,242,245,0.7);
+      max-width: 680px;
+      margin: 0 auto 36px;
+      line-height: 1.65;
+    }
+
+    /* ── CONTROLS: SEARCH & CATEGORY FILTER ── */
+    .blog-controls {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+    .blog-search-box {
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+    }
+    .blog-search-box svg {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      color: rgba(255,255,255,0.4);
+      pointer-events: none;
+    }
+    .blog-search-input {
+      width: 100%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 100px;
+      padding: 12px 18px 12px 46px;
+      font-size: 14px;
+      color: #fff;
+      outline: none;
+      transition: all var(--transition);
+      font-family: inherit;
+    }
+    .blog-search-input:focus {
+      background: rgba(255,255,255,0.1);
+      border-color: #7eb5d5;
+      box-shadow: 0 0 0 3px rgba(126,181,213,0.25);
+    }
+    .blog-search-input::placeholder { color: rgba(255,255,255,0.4); }
+    
+    .blog-categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+    .cat-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7);
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: inherit;
+    }
+    .cat-btn:hover, .cat-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 2px 10px rgba(74,103,133,0.3);
+    }
+
+    /* ── BLOG SECTIONS ── */
+    .blog-featured-section {
+      padding: 90px 0 60px;
+      background: var(--bg);
+    }
+    .blog-list-section {
+      padding: 70px 0;
+      background: var(--bg-2);
+    }
+    .blog-section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 48px;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .blog-section-head__eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .blog-section-head__title {
+      font-size: clamp(28px, 3vw, 40px);
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+    .blog-section-head__sub {
+      color: var(--text-muted);
+      font-size: 15px;
+      max-width: 520px;
+      line-height: 1.65;
+    }
+
+    /* ── BLOG GRID & CARDS ── */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+    .blog-grid--featured {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 26px;
+    }
+    .blog-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px 32px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      position: relative;
+      cursor: pointer;
+    }
+    .blog-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.06);
+      border-color: var(--border-hover);
+    }
+    .blog-card--featured {
+      padding: 38px 40px;
+      background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
+    }
+    .blog-card__body {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      height: 100%;
+    }
+    .blog-card__cat {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(74,103,133,0.08);
+      padding: 4px 10px;
+      border-radius: 6px;
+      width: fit-content;
+    }
+    .blog-card__title {
+      font-size: 19px;
+      font-weight: 600;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin: 4px 0 0;
+    }
+    .blog-card--featured .blog-card__title {
+      font-size: 22px;
+    }
+    .blog-card__excerpt {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      flex-grow: 1;
+    }
+    .blog-card__meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .blog-card__arrow {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-top: 12px;
+      display: inline-block;
+      transition: transform 0.2s;
+    }
+    .blog-card:hover .blog-card__arrow {
+      transform: translateX(4px);
+    }
+
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+
+    /* ── ARTICLE MODAL READER ── */
+    .article-modal-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(10,15,25,0.75);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .article-modal-backdrop.open {
+      opacity: 1; pointer-events: all;
+    }
+    .article-modal {
+      background: #ffffff;
+      width: 100%; max-width: 680px;
+      max-height: 90vh;
+      border-radius: 20px;
+      overflow-y: auto;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.25s ease;
+      display: flex; flex-direction: column;
+    }
+    .article-modal-backdrop.open .article-modal {
+      transform: translateY(0);
+    }
+    .article-modal__header {
+      padding: 32px 36px 20px;
+      border-bottom: 1px solid rgba(15,20,40,0.08);
+      position: relative;
+    }
+    .article-modal__close {
+      position: absolute; right: 24px; top: 24px;
+      background: var(--bg-2); border: none;
+      width: 34px; height: 34px; border-radius: 50%;
+      cursor: pointer; display: grid; place-items: center;
+      font-size: 18px; color: var(--text);
+      transition: background 0.2s;
+    }
+    .article-modal__close:hover { background: var(--bg-3); }
+    .article-modal__cat {
+      display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--accent); background: rgba(74,103,133,0.1);
+      padding: 4px 10px; border-radius: 6px; margin-bottom: 14px;
+    }
+    .article-modal__title {
+      font-size: 24px; font-weight: 600; line-height: 1.3; color: var(--text);
+      margin-bottom: 12px;
+    }
+    .article-modal__meta {
+      display: flex; gap: 8px; font-size: 13px; color: var(--text-dim);
+    }
+    .article-modal__content {
+      padding: 28px 36px 36px;
+      font-size: 15px; line-height: 1.75; color: var(--text-muted);
+    }
+    .article-modal__takeaways {
+      margin: 20px 0;
+      padding: 20px;
+      background: var(--bg);
+      border-radius: 12px;
+      border-left: 4px solid var(--accent);
+    }
+    .article-modal__takeaways h4 {
+      font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 10px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .article-modal__takeaways ul {
+      padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 14px;
+    }
+    .article-modal__footer {
+      margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+    }
+
+    /* ── CTA SECTION ── */
+    .blog-cta {
+      background: #0f1520;
+      padding: 110px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .blog-cta::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px; pointer-events: none;
+    }
+    .blog-cta .container { position: relative; z-index: 1; }
+    .blog-cta h2 {
+      font-size: clamp(28px, 3.5vw, 44px);
+      color: #f9f9f8;
+      margin: 14px auto 18px;
+      max-width: 580px;
+    }
+    .blog-cta p {
+      color: rgba(249,249,248,0.6);
+      font-size: 16px;
+      max-width: 480px;
+      margin: 0 auto 36px;
+      line-height: 1.75;
+    }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid rgba(255,255,255,0.08); background: #0a0f18; padding: 80px 0 40px; color: #f9f9f8; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
+    .footer-brand .logo { margin-bottom: 18px; display: flex; color: #fff; }
+    .footer-brand p { font-size: 14px; color: rgba(249,249,248,0.55); line-height: 1.75; max-width: 280px; margin-bottom: 24px; }
+    .footer-socials { display: flex; gap: 8px; }
+    .social-link {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      display: grid; place-items: center; transition: all var(--transition); color: rgba(249,249,248,0.7);
+      text-decoration: none;
+    }
+    .social-link:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .social-link svg { width: 16px; height: 16px; }
+    .footer-col h4 { font-size: 13px; font-weight: 600; margin-bottom: 18px; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a { font-size: 14px; color: rgba(249,249,248,0.5); text-decoration: none; transition: color var(--transition); }
+    .footer-links a:hover { color: #fff; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 28px; display: flex; align-items: center; justify-content: space-between; }
+    .footer-bottom p { font-size: 13px; color: rgba(249,249,248,0.4); }
+
+    /* ── ANIMATIONS & REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .blog-grid { grid-template-columns: repeat(2, 1fr); }
+      .blog-grid--featured { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .blog-grid { grid-template-columns: 1fr; }
+      .blog-section-head { flex-direction: column; align-items: flex-start; gap: 14px; }
+      .nav-links, .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav id="nav">
+    <div class="announcement-bar" id="announcement-bar">
+      <span class="announcement-dot"></span>
+      <span>Now accepting new Shopify development &amp; CRO projects for Q3 &amp; Q4</span>
+      <a href="index.html#hero-form" class="ann-cta">Get in touch</a>
+      <button class="announcement-close" id="announcement-close" aria-label="Close announcement">×</button>
+    </div>
+    <div class="container">
+      <div class="nav-inner">
+        <div class="logo-wrap">
+          <a href="index.html" class="logo">
+            <div class="logo-mark">
+              <!-- YM Vector Mark -->
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="32" height="32" rx="8" fill="#152238" stroke="rgba(255,255,255,0.15)"/>
+                <path d="M9 10L14 17V22H18V17L23 10H19L16 14.5L13 10H9Z" fill="#7eb5d5"/>
+                <circle cx="16" cy="7" r="1.5" fill="#16a34a"/>
+              </svg>
+            </div>
+            Yasir Malik
+          </a>
+        </div>
+        <ul class="nav-links">
+          <li><a href="index.html#hero">Home</a></li>
+          <li><a href="index.html#services">Services</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="blog.html" class="nav-active">Blog</a></li>
+          <li><a href="index.html#testimonials">Testimonials</a></li>
+          <li><a href="index.html#pricing">Pricing</a></li>
+          <li><a href="index.html#faq">FAQ</a></li>
+        </ul>
+        <div class="nav-cta">
+          <a href="index.html#hero-form" class="btn btn-ghost">Contact</a>
+          <a href="index.html#schedule" class="btn btn-primary">Book a call</a>
+        </div>
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true" inert>
+    <ul class="mobile-menu-links">
+      <li><a href="index.html#hero">Home</a></li>
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="blog.html" class="nav-active">Blog</a></li>
+      <li><a href="index.html#testimonials">Testimonials</a></li>
+      <li><a href="index.html#pricing">Pricing</a></li>
+      <li><a href="index.html#faq">FAQ</a></li>
+      <li><a href="index.html#hero-form">Contact</a></li>
+    </ul>
+    <div class="mobile-menu-cta">
+      <a href="index.html#schedule" class="btn btn-primary btn-lg">Book a free strategy call</a>
+    </div>
+  </div>
+
+  <main>
+    <!-- BLOG HERO -->
+    <section class="blog-hero">
+      <div class="container">
+        <p class="eyebrow" style="color:rgba(149,180,210,0.8);margin-bottom:16px">Yasir Malik Engineering Blog</p>
+        <h1 class="blog-hero__title">Shopify insights from<br>a developer who builds it daily</h1>
+        <p class="blog-hero__sub">Practical guides on Shopify performance, conversion optimization, development, and migrations — written from 9+ years of hands-on experience, not theory.</p>
+
+        <!-- Search & Category Filters -->
+        <div class="blog-controls">
+          <div class="blog-search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="blogSearch" class="blog-search-input" placeholder="Search 80+ guides, code patterns &amp; strategies...">
+          </div>
+          <div class="blog-categories" id="blogCategories">
+            <button class="cat-btn active" data-filter="all">All Topics</button>
+            <button class="cat-btn" data-filter="Development">Development</button>
+            <button class="cat-btn" data-filter="CRO">CRO</button>
+            <button class="cat-btn" data-filter="Migration">Migration</button>
+            <button class="cat-btn" data-filter="Performance">Performance</button>
+            <button class="cat-btn" data-filter="Workflow">Workflow</button>
+            <button class="cat-btn" data-filter="Hiring">Hiring</button>
+            <button class="cat-btn" data-filter="Strategy">Strategy</button>
+            <button class="cat-btn" data-filter="Shopify">Shopify Setup</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED / LATEST -->
+    <section class="blog-featured-section" id="featured-section">
+      <div class="container">
+        <div class="blog-section-head">
+          <div>
+            <p class="blog-section-head__eyebrow">Featured</p>
+            <h2 class="blog-section-head__title">Latest articles</h2>
+          </div>
+          <p class="blog-section-head__sub">Recent practical writeups from real client work - migrations, AI-assisted workflows, and engineering war stories.</p>
+        </div>
+        <div class="blog-grid blog-grid--featured" id="featuredGrid">
+      <a href="/blog/ai-copywriting-agent-discord" class="blog-card blog-card--featured reveal" data-category="Workflow" data-slug="ai-copywriting-agent-discord">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Workflow</span>
+          <h2 class="blog-card__title">Building an AI copywriting agent that lives inside Discord</h2>
+          <p class="blog-card__excerpt">An AI teammate, not an AI tool: brand voice built from real artefacts, a memory system with an approval gate, and the reliability engineering that makes it trustworthy across three brands, every day.</p>
+          <div class="blog-card__meta">
+            <span>August 2026</span>
+            <span>·</span>
+            <span>12 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-product-options-metafields" class="blog-card blog-card--featured reveal" data-category="Development" data-slug="shopify-product-options-metafields">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Development</span>
+          <h2 class="blog-card__title">Replacing a Shopify product options app with native metafields</h2>
+          <p class="blog-card__excerpt">How I migrated a D2C furniture brand off VO Product Options onto native metaobjects - the data architecture, the shared "option products" pattern, and the QA approach that caught two pre-existing bugs.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>11 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/wordpress-site-compromise" class="blog-card blog-card--featured reveal" data-category="Security" data-slug="wordpress-site-compromise">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Security</span>
+          <h2 class="blog-card__title">How I cleaned up a six-week WordPress compromise in one morning</h2>
+          <p class="blog-card__excerpt">60 malicious files across 5 attack waves, a PHP webshell broadcasting to every visitor, and the forensics that revealed whose credential actually leaked. Full incident response playbook.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>14 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/recharge-free-trial-shopify" class="blog-card blog-card--featured reveal" data-category="Development" data-slug="recharge-free-trial-shopify">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Development</span>
+          <h2 class="blog-card__title">Why I stopped using Recharge for free trials (and what I learned)</h2>
+          <p class="blog-card__excerpt">Five bugs in a Recharge placeholder product architecture, the UX problems that couldn't be fixed, and why the clean solution was Stripe's native trial_period_days all along.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>10 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-cro-audit-system" class="blog-card blog-card--featured reveal" data-category="CRO" data-slug="shopify-cro-audit-system">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">CRO</span>
+          <h2 class="blog-card__title">How I built a reusable CRO audit system (and shipped two audits in a week)</h2>
+          <p class="blog-card__excerpt">The format, the template, and the three lessons - including why headless screenshot capture always fails and why locking page height in HTML-to-PDF is non-negotiable.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>9 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/bluepark-to-shopify-migration" class="blog-card blog-card--featured reveal" data-category="Migration" data-slug="bluepark-to-shopify-migration">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Migration</span>
+          <h2 class="blog-card__title">How to migrate a 5,500-product catalogue from Bluepark to Shopify</h2>
+          <p class="blog-card__excerpt">5,578 products, pipe-delimited multi-dimensional variants, 2,211 metafield values backfilled, and thousands of redirects generated from the data. The decisions that kept it clean.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>10 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-bulk-price-deploy" class="blog-card blog-card--featured reveal" data-category="Development" data-slug="shopify-bulk-price-deploy">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Development</span>
+          <h2 class="blog-card__title">The Shopify dry-run that almost wasn't: bulk price updates via Admin API</h2>
+          <p class="blog-card__excerpt">A "price increase" across 13,824 variants turned out to be a £680k revenue restructure. How a dry-run CSV caught it before a single write hit the API - and the productVariantsBulkUpdate setup that made it work.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>9 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/figma-to-shopify-clinic" class="blog-card blog-card--featured reveal" data-category="Workflow" data-slug="figma-to-shopify-clinic">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Workflow</span>
+          <h2 class="blog-card__title">From Figma to a Live Shopify Preview in a Day</h2>
+          <p class="blog-card__excerpt">How I built a 12-page premium clinic site on Shopify with an AI coding agent - the static-first workflow, the screenshot-and-flag review loop, and the three gotchas that bite every launch.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/wordpress-to-shopify-marketing-site" class="blog-card blog-card--featured reveal" data-category="Migration" data-slug="wordpress-to-shopify-marketing-site">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Migration</span>
+          <h2 class="blog-card__title">How to Migrate a Marketing Site From WordPress to Shopify in a Week</h2>
+          <p class="blog-card__excerpt">Same content, different codebase. 7 pages, 30 case studies, 29 blog posts ported with source-of-truth scraping and section-by-section visual diffing. Lighthouse 67 -> 96.</p>
+          <div class="blog-card__meta">
+            <span>May 2026</span>
+            <span>·</span>
+            <span>15 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-to-woocommerce-migration" class="blog-card blog-card--featured reveal" data-category="Migration" data-slug="shopify-to-woocommerce-migration">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Migration</span>
+          <h2 class="blog-card__title">How to Move a 7,500-Order Shopify Store to WooCommerce With Every Penny Reconciled</h2>
+          <p class="blog-card__excerpt">A custom Python + PHP migration pipeline that landed 75 products, 6,441 customers, 7,476 orders and £406,695.36 of trading history, exactly reconciled.</p>
+          <div class="blog-card__meta">
+            <span>May 2026</span>
+            <span>·</span>
+            <span>12 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/wordpress-cpt-url-restructure" class="blog-card blog-card--featured reveal" data-category="Workflow" data-slug="wordpress-cpt-url-restructure">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Workflow</span>
+          <h2 class="blog-card__title">How to Change 1,183 WordPress URLs From Underscore to Hyphen (and What Went Wrong on the Way)</h2>
+          <p class="blog-card__excerpt">Two failed approaches, one Cloudflare gotcha, six hours of debugging - and the ten-line filter that finally solved it. A WordPress routing war story with Claude Code.</p>
+          <div class="blog-card__meta">
+            <span>May 2026</span>
+            <span>·</span>
+            <span>10 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/figma-to-shopify-ai-workflow" class="blog-card blog-card--featured reveal" data-category="Workflow" data-slug="figma-to-shopify-ai-workflow">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Workflow</span>
+          <h2 class="blog-card__title">How to Get an AI to Build a Shopify Theme from a Figma File, Section by Section</h2>
+          <p class="blog-card__excerpt">The screenshot-driven feedback loop that turned a full Figma file into a matching Shopify Horizon theme, page by page. The model isn't the trick - the loop is.</p>
+          <div class="blog-card__meta">
+            <span>May 2026</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FULL LIBRARY / MORE ARTICLES -->
+    <section class="blog-list-section" id="library-section">
+      <div class="container">
+        <div class="blog-section-head">
+          <div>
+            <p class="blog-section-head__eyebrow">More articles</p>
+            <h2 class="blog-section-head__title">The full library</h2>
+          </div>
+          <p class="blog-section-head__sub">Practical guides on Shopify performance, CRO, development, and architecture.</p>
+        </div>
+        <div class="blog-grid" id="libraryGrid">
+      <a href="/blog/shopify-core-web-vitals" class="blog-card reveal" data-category="Performance" data-slug="shopify-core-web-vitals">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Performance</span>
+          <h2 class="blog-card__title">How to Fix Shopify Core Web Vitals in 2026</h2>
+          <p class="blog-card__excerpt">LCP, CLS, and INP - what causes each one on Shopify stores, and the specific fixes that actually move the needle. A developer's field guide, not a lighthouse score chase.</p>
+          <div class="blog-card__meta">
+            <span>May 2026</span>
+            <span>·</span>
+            <span>9 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-cro-tips" class="blog-card reveal" data-category="CRO" data-slug="shopify-cro-tips">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">CRO</span>
+          <h2 class="blog-card__title">Shopify CRO: 12 Changes That Actually Improve Conversion Rate</h2>
+          <p class="blog-card__excerpt">Homepage, collection pages, PDP, cart, and checkout - the specific changes that consistently move conversion rate on Shopify stores. Based on 120+ audits, not best-practice lists.</p>
+          <div class="blog-card__meta">
+            <span>May 2026</span>
+            <span>·</span>
+            <span>11 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/woocommerce-to-shopify-migration" class="blog-card reveal" data-category="Migration" data-slug="woocommerce-to-shopify-migration">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Migration</span>
+          <h2 class="blog-card__title">WooCommerce to Shopify Migration: The Complete 2026 Checklist</h2>
+          <p class="blog-card__excerpt">Everything that needs to happen before, during, and after a WooCommerce to Shopify migration - including the SEO preservation steps that most migration guides skip entirely.</p>
+          <div class="blog-card__meta">
+            <span>May 2026</span>
+            <span>·</span>
+            <span>12 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-liquid-guide" class="blog-card reveal" data-category="Development" data-slug="shopify-liquid-guide">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Development</span>
+          <h2 class="blog-card__title">Shopify Liquid Template Architecture: A Practical Guide</h2>
+          <p class="blog-card__excerpt">How Shopify's Liquid template system actually works - rendering contexts, section groups, metafields, and the Online Store 2.0 architecture explained by someone who writes Liquid daily.</p>
+          <div class="blog-card__meta">
+            <span>May 2026</span>
+            <span>·</span>
+            <span>10 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-headless-vs-traditional" class="blog-card reveal" data-category="Architecture" data-slug="shopify-headless-vs-traditional">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Architecture</span>
+          <h2 class="blog-card__title">Shopify Headless vs Traditional: When Does It Make Sense?</h2>
+          <p class="blog-card__excerpt">Headless Shopify is powerful - and often the wrong choice. A framework for deciding when Hydrogen and a decoupled storefront genuinely outperforms a well-built traditional theme.</p>
+          <div class="blog-card__meta">
+            <span>May 2026</span>
+            <span>·</span>
+            <span>10 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-development-cost" class="blog-card reveal" data-category="Development" data-slug="shopify-development-cost">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Development</span>
+          <h2 class="blog-card__title">How Much Does Shopify Development Cost in 2026?</h2>
+          <p class="blog-card__excerpt">Real price ranges for every type of Shopify project - theme builds, migrations, audits, headless, retainers. No ranges disguised as answers.</p>
+          <div class="blog-card__meta">
+            <span>May 2026</span>
+            <span>·</span>
+            <span>10 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-product-page-design" class="blog-card reveal" data-category="CRO" data-slug="shopify-product-page-design">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">CRO</span>
+          <h2 class="blog-card__title">How to Design a Shopify Product Page That Converts</h2>
+          <p class="blog-card__excerpt">Buy box hierarchy, variant selectors, social proof placement, mobile UX, sticky ATC - the layout decisions that determine whether a product page converts or loses the sale.</p>
+          <div class="blog-card__meta">
+            <span>May 2026</span>
+            <span>·</span>
+            <span>11 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-ab-testing-guide" class="blog-card reveal" data-category="CRO" data-slug="shopify-ab-testing-guide">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">CRO</span>
+          <h2 class="blog-card__title">Shopify A/B Testing: How to Run Experiments That Actually Tell You Something</h2>
+          <p class="blog-card__excerpt">Sample sizes, hypothesis design, tool selection, test duration, and reading results correctly. Most Shopify A/B tests fail silently - here's how to run ones that don't.</p>
+          <div class="blog-card__meta">
+            <span>May 2026</span>
+            <span>·</span>
+            <span>12 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-app-stack" class="blog-card reveal" data-category="Development" data-slug="shopify-app-stack">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Development</span>
+          <h2 class="blog-card__title">The Shopify App Stack for DTC Brands in 2026</h2>
+          <p class="blog-card__excerpt">Reviews, email, upsell, subscriptions, search, loyalty, returns - category-by-category recommendations for apps actually worth running, plus how to audit what you already have.</p>
+          <div class="blog-card__meta">
+            <span>May 2026</span>
+            <span>·</span>
+            <span>10 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- HIRING & PLANNING / GUIDES FOR STORE OWNERS -->
+    <section class="blog-list-section" style="background:var(--bg)" id="guides-section">
+      <div class="container">
+        <div class="blog-section-head">
+          <div>
+            <p class="blog-section-head__eyebrow">Hiring &amp; Planning</p>
+            <h2 class="blog-section-head__title">Guides for Shopify store owners</h2>
+          </div>
+          <p class="blog-section-head__sub">Decision-making guides for business owners - how to hire, what to build, and when to rebuild.</p>
+        </div>
+        <div class="blog-grid" id="guidesGrid">
+      <a href="/blog/how-to-choose-a-shopify-developer" class="blog-card reveal" data-category="Hiring" data-slug="how-to-choose-a-shopify-developer">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Hiring</span>
+          <h2 class="blog-card__title">How to choose a Shopify developer: what to look for in 2026</h2>
+          <p class="blog-card__excerpt">The credentials that matter, the portfolio questions to ask, and how to tell a genuine specialist from a generalist who'll learn on your project.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/questions-to-ask-shopify-developer" class="blog-card reveal" data-category="Hiring" data-slug="questions-to-ask-shopify-developer">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Hiring</span>
+          <h2 class="blog-card__title">10 questions to ask before hiring a Shopify developer</h2>
+          <p class="blog-card__excerpt">The questions that reveal competence, transparency, and fit - and the answers that should make you pause before signing anything.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-developer-red-flags" class="blog-card reveal" data-category="Hiring" data-slug="shopify-developer-red-flags">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Hiring</span>
+          <h2 class="blog-card__title">Red flags when hiring a Shopify developer</h2>
+          <p class="blog-card__excerpt">8 warning signs that a developer will cause problems - before the deposit, during the project, and at handover.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/how-to-brief-a-shopify-developer" class="blog-card reveal" data-category="Planning" data-slug="how-to-brief-a-shopify-developer">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Planning</span>
+          <h2 class="blog-card__title">How to brief a Shopify developer: what to include</h2>
+          <p class="blog-card__excerpt">What goes in a good project brief - and why a complete brief gets you a more accurate quote, fewer questions, and a faster start.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/how-long-to-build-shopify-store" class="blog-card reveal" data-category="Planning" data-slug="how-long-to-build-shopify-store">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Planning</span>
+          <h2 class="blog-card__title">How long does it take to build a Shopify store?</h2>
+          <p class="blog-card__excerpt">Realistic timelines for every build type - from a 1-day theme setup to a 5-week custom store - and what makes projects take longer than they should.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-store-rebuild-vs-redesign" class="blog-card reveal" data-category="Strategy" data-slug="shopify-store-rebuild-vs-redesign">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Strategy</span>
+          <h2 class="blog-card__title">Shopify store rebuild vs redesign: which does your store need?</h2>
+          <p class="blog-card__excerpt">A redesign changes how your store looks. A rebuild changes how it works. Getting this wrong is expensive - here's how to tell which problem you have.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-theme-signs-need-rebuild" class="blog-card reveal" data-category="Strategy" data-slug="shopify-theme-signs-need-rebuild">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Strategy</span>
+          <h2 class="blog-card__title">7 signs your Shopify theme needs a rebuild</h2>
+          <p class="blog-card__excerpt">The specific signals that your theme has structural problems a visual refresh won't fix - and what a rebuild actually involves.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-checkout-conversion" class="blog-card reveal" data-category="CRO" data-slug="shopify-checkout-conversion">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">CRO</span>
+          <h2 class="blog-card__title">How to improve your Shopify checkout conversion rate</h2>
+          <p class="blog-card__excerpt">Most checkout problems aren't checkout problems - they're upstream. The specific fixes that reduce abandonment, based on 120+ store audits.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-markets-guide" class="blog-card reveal" data-category="Shopify" data-slug="shopify-markets-guide">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify Markets: a practical guide to international selling</h2>
+          <p class="blog-card__excerpt">How Shopify Markets works, what it can and can't do, and what you actually need to set up for each new country you sell to.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-hydrogen-guide" class="blog-card reveal" data-category="Architecture" data-slug="shopify-hydrogen-guide">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Architecture</span>
+          <h2 class="blog-card__title">Shopify Hydrogen: is headless right for your store?</h2>
+          <p class="blog-card__excerpt">What Hydrogen actually gives you, what it costs versus a custom Liquid theme, and the honest answer to whether your store needs it.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-plus-worth-it" class="blog-card reveal" data-category="Shopify" data-slug="shopify-plus-worth-it">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Is Shopify Plus worth it? An honest look for growing brands</h2>
+          <p class="blog-card__excerpt">What Plus adds over Advanced, what it costs, and the specific signals that tell you whether the upgrade genuinely pays for itself at your current scale.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-launch-checklist" class="blog-card reveal" data-category="Planning" data-slug="shopify-launch-checklist">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Planning</span>
+          <h2 class="blog-card__title">Shopify store launch checklist: what to check before you go live</h2>
+          <p class="blog-card__excerpt">The non-technical launch checklist for store owners - buy something first, check mobile, verify emails, and the five settings that are commonly wrong at launch.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-cart-abandonment" class="blog-card reveal" data-category="CRO" data-slug="shopify-cart-abandonment">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">CRO</span>
+          <h2 class="blog-card__title">How to reduce Shopify cart abandonment: what actually works</h2>
+          <p class="blog-card__excerpt">The specific fixes for unexpected shipping costs, forced account creation, missing trust signals, and the email recovery sequences that recover the most abandons.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-b2b-setup" class="blog-card reveal" data-category="Shopify" data-slug="shopify-b2b-setup">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify B2B setup guide: wholesale selling on Shopify in 2026</h2>
+          <p class="blog-card__excerpt">Standard plan apps vs Shopify Plus native B2B - how to structure wholesale correctly for your situation, and what a proper B2B setup actually involves.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-subscription-setup" class="blog-card reveal" data-category="Shopify" data-slug="shopify-subscription-setup">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify subscription setup: how to sell subscriptions on Shopify</h2>
+          <p class="blog-card__excerpt">App-based vs Stripe, free trial architecture, and the customer portal decisions that determine whether subscribers stay or churn.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-store-audit" class="blog-card reveal" data-category="CRO" data-slug="shopify-store-audit">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">CRO</span>
+          <h2 class="blog-card__title">How to audit your own Shopify store: a non-technical checklist</h2>
+          <p class="blog-card__excerpt">A one-hour self-audit covering homepage, product pages, navigation, cart, and speed - what to check yourself before deciding whether you need professional help.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/what-shopify-developer-does" class="blog-card reveal" data-category="Hiring" data-slug="what-shopify-developer-does">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Hiring</span>
+          <h2 class="blog-card__title">What does a Shopify developer actually do?</h2>
+          <p class="blog-card__excerpt">What you're paying for, what's not included, and when you genuinely need a developer vs when you can handle it yourself - explained without jargon.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/review-shopify-developer-work" class="blog-card reveal" data-category="Hiring" data-slug="review-shopify-developer-work">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Hiring</span>
+          <h2 class="blog-card__title">How to review Shopify developer work without being a developer</h2>
+          <p class="blog-card__excerpt">What to check on a staging site, how to give specific feedback, and when to approve vs push back - for business owners reviewing developer output.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-vs-etsy" class="blog-card reveal" data-category="Platform" data-slug="shopify-vs-etsy">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Platform</span>
+          <h2 class="blog-card__title">Shopify vs Etsy: which is right for your business in 2026?</h2>
+          <p class="blog-card__excerpt">Etsy gives you a built-in audience. Shopify gives you a real business. When each one makes sense, when to run both, and what the economics look like at different revenue levels.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-vs-amazon" class="blog-card reveal" data-category="Platform" data-slug="shopify-vs-amazon">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Platform</span>
+          <h2 class="blog-card__title">Shopify vs Amazon: should you sell on Amazon or build your own store?</h2>
+          <p class="blog-card__excerpt">Amazon gives you customers. Shopify gives you a business. How to use each one, when to run both, and the packaging insert strategy that moves Amazon buyers to your own store.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-vs-wix" class="blog-card reveal" data-category="Platform" data-slug="shopify-vs-wix">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Platform</span>
+          <h2 class="blog-card__title">Shopify vs Wix: which is better for ecommerce in 2026?</h2>
+          <p class="blog-card__excerpt">Where Wix is fine for simple ecommerce, where it runs into limits, and when Shopify is the clear answer for businesses where selling is the core activity.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/how-to-move-from-etsy-to-shopify" class="blog-card reveal" data-category="Migration" data-slug="how-to-move-from-etsy-to-shopify">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Migration</span>
+          <h2 class="blog-card__title">How to move from Etsy to Shopify: a step-by-step guide</h2>
+          <p class="blog-card__excerpt">Don't close your Etsy shop first. The practical process for building a Shopify store alongside Etsy, migrating listings, setting up email capture, and gradually shifting your best customers across.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-for-small-business" class="blog-card reveal" data-category="Shopify" data-slug="shopify-for-small-business">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify for small business: is it the right platform in 2026?</h2>
+          <p class="blog-card__excerpt">What Shopify actually costs, when you can set it up yourself vs when you need a developer, and the most common mistakes small businesses make on the platform.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-payments-vs-stripe" class="blog-card reveal" data-category="Shopify" data-slug="shopify-payments-vs-stripe">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify Payments vs Stripe: which should you use?</h2>
+          <p class="blog-card__excerpt">Both are built on Stripe's infrastructure. The difference is fees, checkout integration, and available countries - here's which one fits your situation.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-apps-worth-paying-for" class="blog-card reveal" data-category="Shopify" data-slug="shopify-apps-worth-paying-for">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify apps worth paying for (and what to skip) in 2026</h2>
+          <p class="blog-card__excerpt">The apps that consistently deliver ROI by category, the ones merchants overpay for, and how to audit your current app stack for waste and gaps.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/how-to-improve-shopify-seo" class="blog-card reveal" data-category="SEO" data-slug="how-to-improve-shopify-seo">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">SEO</span>
+          <h2 class="blog-card__title">How to improve Shopify SEO: a practical guide for store owners</h2>
+          <p class="blog-card__excerpt">Page titles, product descriptions, collection pages, site speed, content, and backlinks - what to prioritise and what to do yourself before hiring a professional.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-klaviyo-setup" class="blog-card reveal" data-category="Shopify" data-slug="shopify-klaviyo-setup">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify Klaviyo setup: how to connect and configure Klaviyo</h2>
+          <p class="blog-card__excerpt">How to integrate Klaviyo with Shopify and set up the four flows that recover the most revenue - abandoned cart, welcome series, post-purchase, and win-back.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-retainer-vs-project" class="blog-card reveal" data-category="Hiring" data-slug="shopify-retainer-vs-project">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Hiring</span>
+          <h2 class="blog-card__title">Shopify developer retainer vs project: which engagement model is right?</h2>
+          <p class="blog-card__excerpt">When each model makes sense, what each includes, and the questions that determine whether you need a one-off build or ongoing development access.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-google-analytics-setup" class="blog-card reveal" data-category="Shopify" data-slug="shopify-google-analytics-setup">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">How to set up Google Analytics 4 on Shopify: the correct method in 2026</h2>
+          <p class="blog-card__excerpt">Why manual theme snippets are the wrong approach, how to use Customer Events correctly, and the four GA4 reports that tell you something actionable about your store.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-for-clothing-brands" class="blog-card reveal" data-category="Shopify" data-slug="shopify-for-clothing-brands">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify for clothing brands: what fashion stores need to set up correctly</h2>
+          <p class="blog-card__excerpt">Variant structure, size anxiety, returns policy, photography requirements, and size filtering - the fashion-specific Shopify setup most stores get wrong.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-black-friday-checklist" class="blog-card reveal" data-category="Strategy" data-slug="shopify-black-friday-checklist">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Strategy</span>
+          <h2 class="blog-card__title">Shopify Black Friday checklist: how to prepare your store</h2>
+          <p class="blog-card__excerpt">Six weeks of preparation broken into weekly actions - speed, offers, discount code testing, email sequences, and what to monitor on the day.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-shipping-setup" class="blog-card reveal" data-category="Shopify" data-slug="shopify-shipping-setup">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify shipping setup: how to configure rates, zones, and carriers</h2>
+          <p class="blog-card__excerpt">Zones, flat rates, free shipping thresholds, calculated rates, and the configuration mistakes that cause checkout abandonment and missing shipping options.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-collections-guide" class="blog-card reveal" data-category="Shopify" data-slug="shopify-collections-guide">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify collections: how to structure your catalogue correctly</h2>
+          <p class="blog-card__excerpt">Smart vs manual, URL structure, SEO content for collection pages, navigation design, and filtering setup - the decisions that affect both browsing and rankings.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-discount-strategy" class="blog-card reveal" data-category="Strategy" data-slug="shopify-discount-strategy">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Strategy</span>
+          <h2 class="blog-card__title">Shopify discount strategy: how to use discounts without destroying your brand</h2>
+          <p class="blog-card__excerpt">The discounts worth running, the ones that train customers to never pay full price, and the question to ask before creating any discount.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-vs-magento" class="blog-card reveal" data-category="Platform" data-slug="shopify-vs-magento">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Platform</span>
+          <h2 class="blog-card__title">Shopify vs Magento: which is right for growing ecommerce brands?</h2>
+          <p class="blog-card__excerpt">Total cost of ownership comparison - hosting, development, maintenance - and the narrowing set of circumstances where Magento is still justified over Shopify Plus.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-product-photography-guide" class="blog-card reveal" data-category="CRO" data-slug="shopify-product-photography-guide">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">CRO</span>
+          <h2 class="blog-card__title">Shopify product photography: what your store actually needs</h2>
+          <p class="blog-card__excerpt">The minimum photography set per product, what the best-converting stores have that average stores don't, and image specs for Shopify.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-international-shipping" class="blog-card reveal" data-category="Shopify" data-slug="shopify-international-shipping">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify international shipping: how to set up and what to expect</h2>
+          <p class="blog-card__excerpt">Duties, DDP vs DDU, VAT by country, carrier options, and how to set customer expectations when you ship across borders.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-meta-pixel-setup" class="blog-card reveal" data-category="Shopify" data-slug="shopify-meta-pixel-setup">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">How to set up Meta Pixel on Shopify in 2026 (the right way)</h2>
+          <p class="blog-card__excerpt">Why manual theme snippets cause duplicate events, how to use Shopify's Customer Events correctly, and how to verify the Conversions API is working.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-product-descriptions-guide" class="blog-card reveal" data-category="SEO" data-slug="shopify-product-descriptions-guide">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">SEO</span>
+          <h2 class="blog-card__title">How to write Shopify product descriptions that rank and convert</h2>
+          <p class="blog-card__excerpt">The structure that serves both Google and customers, what to avoid, and how to prioritise rewriting across a large catalogue.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-store-design-guide" class="blog-card reveal" data-category="CRO" data-slug="shopify-store-design-guide">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">CRO</span>
+          <h2 class="blog-card__title">Shopify store design: what makes a store actually convert</h2>
+          <p class="blog-card__excerpt">The design decisions that move conversion rate - trust signals, buy box placement, mobile-first thinking - versus what's just decoration.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-returns-management" class="blog-card reveal" data-category="Shopify" data-slug="shopify-returns-management">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify returns management: how to handle returns without losing customers</h2>
+          <p class="blog-card__excerpt">Policy structure, native Shopify tools, Loop Returns vs AfterShip, exchange-first flows, and using return reason data as product feedback.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-print-on-demand" class="blog-card reveal" data-category="Shopify" data-slug="shopify-print-on-demand">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify print on demand: how to set up and what to know in 2026</h2>
+          <p class="blog-card__excerpt">Printful vs Printify vs Gelato, what the margins actually look like, and what separates successful POD stores from ones that never get traction.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-dropshipping-guide" class="blog-card reveal" data-category="Shopify" data-slug="shopify-dropshipping-guide">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify dropshipping: how it works and what to expect in 2026</h2>
+          <p class="blog-card__excerpt">A realistic look at the margins, supplier options, and why the arbitrage approach is effectively dead - and what actually works instead.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-for-food-brands" class="blog-card reveal" data-category="Shopify" data-slug="shopify-for-food-brands">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify for food and beverage brands: what you need to set up correctly</h2>
+          <p class="blog-card__excerpt">Regulatory labelling, subscription setup, perishable shipping constraints, and the product page content that converts food buyers.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-email-marketing-starter" class="blog-card reveal" data-category="Shopify" data-slug="shopify-email-marketing-starter">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify email marketing for beginners: getting started without Klaviyo</h2>
+          <p class="blog-card__excerpt">Shopify Email, Mailchimp, and Omnisend compared for early-stage stores - and the three automations to set up regardless of which tool you use.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-vs-prestashop" class="blog-card reveal" data-category="Platform" data-slug="shopify-vs-prestashop">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Platform</span>
+          <h2 class="blog-card__title">Shopify vs PrestaShop: which platform is right for your store?</h2>
+          <p class="blog-card__excerpt">Total cost comparison, developer availability, hosting burden, and the signals that tell you it's time to migrate from PrestaShop to Shopify.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-increase-average-order-value" class="blog-card reveal" data-category="CRO" data-slug="shopify-increase-average-order-value">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">CRO</span>
+          <h2 class="blog-card__title">How to increase average order value on Shopify: what actually works</h2>
+          <p class="blog-card__excerpt">Free shipping thresholds, bundles, post-purchase upsells, product recommendations - what moves the number and what doesn't.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-loyalty-programme" class="blog-card reveal" data-category="Shopify" data-slug="shopify-loyalty-programme">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify loyalty programme: how to set one up and make it work</h2>
+          <p class="blog-card__excerpt">Smile vs Yotpo vs LoyaltyLion, programme structure that drives repeat purchases, VIP tiers, and loyalty email flows.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-gift-cards-setup" class="blog-card reveal" data-category="Shopify" data-slug="shopify-gift-cards-setup">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify gift cards: how to set up and sell gift cards on Shopify</h2>
+          <p class="blog-card__excerpt">How gift cards work, what denominations to offer, accounting implications, and how to use them as a marketing tool beyond direct sales.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>5 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-customer-accounts" class="blog-card reveal" data-category="Shopify" data-slug="shopify-customer-accounts">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify customer accounts: new vs classic, and what you actually need</h2>
+          <p class="blog-card__excerpt">Passwordless new accounts vs classic login, why you should never require accounts at checkout, and how accounts power loyalty and repeat purchase marketing.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-inventory-management" class="blog-card reveal" data-category="Shopify" data-slug="shopify-inventory-management">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify inventory management: how to track and control stock</h2>
+          <p class="blog-card__excerpt">How inventory tracking works, overselling settings, multi-location, low-stock alerts, and when you outgrow Shopify's native tools.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-live-chat-setup" class="blog-card reveal" data-category="Shopify" data-slug="shopify-live-chat-setup">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify live chat: should you add it, and which tool to use?</h2>
+          <p class="blog-card__excerpt">When live chat helps and when it hurts, Shopify Inbox vs Gorgias vs Tidio, and the configuration that prevents it from creating a worse experience.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>5 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-for-jewellery-brands" class="blog-card reveal" data-category="Shopify" data-slug="shopify-for-jewellery-brands">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify for jewellery brands: what to set up correctly</h2>
+          <p class="blog-card__excerpt">Variant structure for complex jewellery, photography requirements, UK hallmarking, gifting setup, and the trust signals specific to fine jewellery buyers.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-for-beauty-brands" class="blog-card reveal" data-category="Shopify" data-slug="shopify-for-beauty-brands">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify for beauty brands: what skincare and cosmetics stores need</h2>
+          <p class="blog-card__excerpt">Ingredient compliance, shade variant structure, subscriptions for consumables, and the product page content that answers "will this work for me?"</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-find-products-to-sell" class="blog-card reveal" data-category="Strategy" data-slug="shopify-find-products-to-sell">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Strategy</span>
+          <h2 class="blog-card__title">How to find products to sell on Shopify in 2026</h2>
+          <p class="blog-card__excerpt">Demand validation before product selection, what makes a product viable, sourcing approaches, and the validation step before building a full store.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-beginners-guide" class="blog-card reveal" data-category="Shopify" data-slug="shopify-beginners-guide">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify beginners guide: how to start your store in 2026</h2>
+          <p class="blog-card__excerpt">The critical path from account setup to first sale - what to do first, what to defer, and the setup mistakes that cost you time and money later.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>9 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/best-shopify-themes" class="blog-card reveal" data-category="Shopify" data-slug="best-shopify-themes">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Best Shopify themes in 2026: free and paid options compared</h2>
+          <p class="blog-card__excerpt">Dawn, Craft, Impulse, Prestige, and the others worth considering - by use case, what makes each one worth choosing, and when to skip themes entirely.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-tiktok-setup" class="blog-card reveal" data-category="Shopify" data-slug="shopify-tiktok-setup">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify TikTok setup: how to connect TikTok Shop in 2026</h2>
+          <p class="blog-card__excerpt">Pixel tracking, product catalogue sync, TikTok Shop native checkout, and what content actually converts - the full setup guide.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-seo-checklist" class="blog-card reveal" data-category="SEO" data-slug="shopify-seo-checklist">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">SEO</span>
+          <h2 class="blog-card__title">Shopify SEO checklist: 30 things to check on your store</h2>
+          <p class="blog-card__excerpt">Technical foundation, GSC setup, on-page content, structured data, internal linking, and performance - prioritised from most to least impactful.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-store-ideas" class="blog-card reveal" data-category="Strategy" data-slug="shopify-store-ideas">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Strategy</span>
+          <h2 class="blog-card__title">Shopify store ideas: 25 profitable niches for 2026</h2>
+          <p class="blog-card__excerpt">25 product categories where independent brands are building real businesses - with honest notes on what makes each one viable and what the differentiation angle is.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-speed-optimization" class="blog-card reveal" data-category="Performance" data-slug="shopify-speed-optimization">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Performance</span>
+          <h2 class="blog-card__title">Shopify speed optimization: what you can fix without a developer</h2>
+          <p class="blog-card__excerpt">Image compression, removing unused apps, video optimisation - the fixes that move Lighthouse scores without touching code, and what genuinely requires a developer.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-product-reviews-setup" class="blog-card reveal" data-category="CRO" data-slug="shopify-product-reviews-setup">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">CRO</span>
+          <h2 class="blog-card__title">Shopify product reviews: how to get more and display them well</h2>
+          <p class="blog-card__excerpt">Judge.me vs Loox vs Okendo, review request timing and copy, where to place reviews on the product page, and the strategic value of negative reviews.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-custom-domain-setup" class="blog-card reveal" data-category="Shopify" data-slug="shopify-custom-domain-setup">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">How to set up a custom domain on Shopify</h2>
+          <p class="blog-card__excerpt">Buying through Shopify vs connecting your own, the DNS records you need, common connection problems and how to fix them.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-for-home-decor" class="blog-card reveal" data-category="Shopify" data-slug="shopify-for-home-decor">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify for home decor and furniture brands: what to set up correctly</h2>
+          <p class="blog-card__excerpt">Variant structure for complex furniture, photography requirements, delivery type configuration, and the product page content that earns high-AOV purchases.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-accessibility" class="blog-card reveal" data-category="Development" data-slug="shopify-accessibility">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Development</span>
+          <h2 class="blog-card__title">Shopify accessibility: how to make your store usable for everyone</h2>
+          <p class="blog-card__excerpt">What Shopify handles automatically, what you need to fix yourself (alt text, contrast, form labels), and how accessibility improvements often improve SEO simultaneously.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-pinterest-setup" class="blog-card reveal" data-category="Shopify" data-slug="shopify-pinterest-setup">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify Pinterest setup: how to connect Pinterest and drive sales</h2>
+          <p class="blog-card__excerpt">Product Pins, Rich Pins, the Pinterest Tag, and what content actually performs on a platform where purchase intent is baked into the browsing behaviour.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-buy-now-pay-later" class="blog-card reveal" data-category="Shopify" data-slug="shopify-buy-now-pay-later">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify buy now pay later: Klarna, Clearpay, and Shop Pay Instalments</h2>
+          <p class="blog-card__excerpt">Which BNPL option fits your price point and geography, how to display installment messaging on product pages, and the merchant cost trade-off.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-faq-page" class="blog-card reveal" data-category="Shopify" data-slug="shopify-faq-page">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify FAQ page: how to create one that reduces support and converts</h2>
+          <p class="blog-card__excerpt">Where to get the questions, how to structure the page, FAQPage schema for Google rich results, and how product-page FAQ sections outperform standalone pages.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-upsell-strategies" class="blog-card reveal" data-category="CRO" data-slug="shopify-upsell-strategies">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">CRO</span>
+          <h2 class="blog-card__title">Shopify upsell strategies: what works on product pages, cart, and post-purchase</h2>
+          <p class="blog-card__excerpt">Where upsells belong, why post-purchase converts at 10-20% vs 3-7% pre-cart, and what placement mistakes create friction instead of revenue.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-affiliate-marketing" class="blog-card reveal" data-category="Shopify" data-slug="shopify-affiliate-marketing">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify affiliate marketing: how to set up an affiliate programme</h2>
+          <p class="blog-card__excerpt">Referral vs affiliate programmes, UpPromote and ReferralCandy compared, commission structures, and how to recruit affiliates who actually send traffic.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-social-proof" class="blog-card reveal" data-category="CRO" data-slug="shopify-social-proof">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">CRO</span>
+          <h2 class="blog-card__title">Shopify social proof: every type and where to use it</h2>
+          <p class="blog-card__excerpt">Reviews, UGC, press mentions, trust badges, guarantee policies - what each type addresses and where it belongs at the moment the relevant doubt is strongest.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-for-sports-brands" class="blog-card reveal" data-category="Shopify" data-slug="shopify-for-sports-brands">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify for sports and fitness brands: what to set up correctly</h2>
+          <p class="blog-card__excerpt">Technical spec display, activewear size guides, subscription consumables, community-driven social proof, and performance optimisation for mobile-first sports audiences.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-coming-soon-page" class="blog-card reveal" data-category="Shopify" data-slug="shopify-coming-soon-page">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify coming soon page: how to build pre-launch hype and capture emails</h2>
+          <p class="blog-card__excerpt">Password protection vs custom landing page, what converts pre-launch visitors into subscribers, and what to send the list before launch day.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-wishlist-setup" class="blog-card reveal" data-category="Shopify" data-slug="shopify-wishlist-setup">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify wishlist: how to add a wishlist to your store</h2>
+          <p class="blog-card__excerpt">Which stores benefit from wishlists, Wishlist Hero vs Swym compared, the email triggers (price drop, low stock, back in stock) that turn wishlist data into revenue.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>5 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-for-pet-brands" class="blog-card reveal" data-category="Shopify" data-slug="shopify-for-pet-brands">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify for pet brands: what to set up correctly</h2>
+          <p class="blog-card__excerpt">Subscriptions, ingredient transparency, breed filtering, health claim compliance, and the UGC that converts protective pet owners.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-popup-email-capture" class="blog-card reveal" data-category="CRO" data-slug="shopify-popup-email-capture">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">CRO</span>
+          <h2 class="blog-card__title">Shopify popups and email capture: what works and what annoys customers</h2>
+          <p class="blog-card__excerpt">Timing, offer types, apps, and what the welcome email needs to do for the subscribers you actually capture.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-google-shopping" class="blog-card reveal" data-category="Shopify" data-slug="shopify-google-shopping">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify Google Shopping: set up and optimise your product feed</h2>
+          <p class="blog-card__excerpt">Free listings, feed optimisation (titles, GTINs, images), common errors, and when to run Shopping ads.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-sms-marketing" class="blog-card reveal" data-category="Shopify" data-slug="shopify-sms-marketing">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify SMS marketing: how to add SMS to your store in 2026</h2>
+          <p class="blog-card__excerpt">Compliance requirements, Postscript vs Klaviyo SMS, the flows that generate revenue, and building an SMS list from scratch.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-influencer-marketing" class="blog-card reveal" data-category="Strategy" data-slug="shopify-influencer-marketing">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Strategy</span>
+          <h2 class="blog-card__title">Shopify influencer marketing: working with creators to drive sales</h2>
+          <p class="blog-card__excerpt">Why micro outperforms macro, discount code and UTM tracking, the gifting approach that produces authentic content, and how to measure ROI.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-subscription-box" class="blog-card reveal" data-category="Shopify" data-slug="shopify-subscription-box">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify subscription box: how to set up and run a subscription box business</h2>
+          <p class="blog-card__excerpt">Billing, pricing structures, product sourcing, fulfilment, and the churn metrics that separate sustainable boxes from ones that fail.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-multi-currency" class="blog-card reveal" data-category="Shopify" data-slug="shopify-multi-currency">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify multi-currency: how to sell in multiple currencies</h2>
+          <p class="blog-card__excerpt">Automatic conversion vs fixed local prices via Markets, rounding rules, and what to watch for in payouts and email flows.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-abandoned-browse-emails" class="blog-card reveal" data-category="CRO" data-slug="shopify-abandoned-browse-emails">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">CRO</span>
+          <h2 class="blog-card__title">Shopify abandoned browse emails: recovering visitors who didn't add to cart</h2>
+          <p class="blog-card__excerpt">How browse abandon differs from cart abandon, Klaviyo flow setup, dynamic product content, and when the volume justifies the setup.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-for-wellness-brands" class="blog-card reveal" data-category="Shopify" data-slug="shopify-for-wellness-brands">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify for wellness brands: what health and wellbeing stores need</h2>
+          <p class="blog-card__excerpt">Health claim compliance, ingredient transparency, content-led acquisition, and why wellness brands that win earn trust rather than claim it.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-review" class="blog-card reveal" data-category="Shopify" data-slug="shopify-review">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify review 2026: is it worth it?</h2>
+          <p class="blog-card__excerpt">An honest review from a developer who builds on it daily - what Shopify does well, where it falls short, and who should consider alternatives.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>9 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-pricing-plans" class="blog-card reveal" data-category="Shopify" data-slug="shopify-pricing-plans">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify pricing and plans 2026: which plan do you actually need?</h2>
+          <p class="blog-card__excerpt">Basic, Shopify, Advanced, and Plus - real costs including apps and payment fees, and the specific revenue signals that tell you when to upgrade.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/what-is-shopify-uk" class="blog-card reveal" data-category="Shopify" data-slug="what-is-shopify-uk">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">What is Shopify? A guide for UK businesses in 2026</h2>
+          <p class="blog-card__excerpt">How Shopify works, UK pricing in GBP, Shopify Payments for UK merchants, VAT, GDPR, and UK-specific setup considerations.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-templates-guide" class="blog-card reveal" data-category="Shopify" data-slug="shopify-templates-guide">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify templates: what they are and how to use them</h2>
+          <p class="blog-card__excerpt">Themes vs page templates vs email templates - which type you're looking for, free vs paid options, and when you need a custom template.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-for-kids-brands" class="blog-card reveal" data-category="Shopify" data-slug="shopify-for-kids-brands">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify for children's brands: what kids and baby product stores need</h2>
+          <p class="blog-card__excerpt">Safety certifications, age filtering, gifting configuration, and the cautious parent buyer psychology that differs from every other category.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-product-bundling" class="blog-card reveal" data-category="CRO" data-slug="shopify-product-bundling">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">CRO</span>
+          <h2 class="blog-card__title">Shopify product bundling: how to create bundles that increase AOV</h2>
+          <p class="blog-card__excerpt">Starter kits, quantity bundles, build-your-own - the types that work, pricing strategy, apps to use, and where to surface bundles in the customer journey.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-customer-segmentation" class="blog-card reveal" data-category="Strategy" data-slug="shopify-customer-segmentation">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Strategy</span>
+          <h2 class="blog-card__title">Shopify customer segmentation: how to group customers and market to each one</h2>
+          <p class="blog-card__excerpt">Active, one-time buyer, VIP, lapsed - the segments that drive revenue, RFM framework, and why suppression matters as much as targeting.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-email-flows-guide" class="blog-card reveal" data-category="Shopify" data-slug="shopify-email-flows-guide">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify email flows: the complete guide to automated email sequences</h2>
+          <p class="blog-card__excerpt">Every flow a Shopify store should have - welcome, abandoned checkout, post-purchase, browse abandon, win-back, back-in-stock - with timing and content guidance.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>9 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-for-handmade-products" class="blog-card reveal" data-category="Shopify" data-slug="shopify-for-handmade-products">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify for handmade products: setting up a store for makers and artisans</h2>
+          <p class="blog-card__excerpt">Production limits, custom order handling, the story that justifies premium pricing, and why correct pricing is the most common mistake makers make.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-page-speed-test" class="blog-card reveal" data-category="Performance" data-slug="shopify-page-speed-test">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Performance</span>
+          <h2 class="blog-card__title">Shopify page speed test: how to check and interpret your store's performance</h2>
+          <p class="blog-card__excerpt">Which tool to use, how to read Lighthouse scores and Core Web Vitals, and what the numbers actually mean for conversion rate and search rankings.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-free-trial-setup" class="blog-card reveal" data-category="Development" data-slug="shopify-free-trial-setup">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Development</span>
+          <h2 class="blog-card__title">Shopify free trial setup: the right way to offer a trial in 2026</h2>
+          <p class="blog-card__excerpt">Why the Recharge placeholder architecture creates bugs and a confusing customer experience, and why Stripe's native trial_period_days is the clean solution.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/blog/shopify-for-event-businesses" class="blog-card reveal" data-category="Shopify" data-slug="shopify-for-event-businesses">
+        <div class="blog-card__body">
+          <span class="blog-card__cat">Shopify</span>
+          <h2 class="blog-card__title">Shopify for event-based businesses: workshops, classes, and experiences</h2>
+          <p class="blog-card__excerpt">When Shopify makes sense for events, setting up classes as products, booking apps, capacity management, and gift vouchers for experiences.</p>
+          <div class="blog-card__meta">
+            <span>June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <span class="blog-card__arrow">Read article &rarr;</span>
+        </div>
+      </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG CTA -->
+    <section class="blog-cta">
+      <div class="container">
+        <div class="eyebrow" style="color:#7eb5d5;border-color:rgba(126,181,213,0.3);margin-bottom:16px;">Have a store challenge?</div>
+        <h2>Need an expert review of your store?</h2>
+        <p>Book a free 45-minute consultation. We'll examine your theme code, Core Web Vitals speed, and conversion friction points together.</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <a href="index.html#hero-form" class="btn btn-primary btn-lg">
+            Book a free audit
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+          </a>
+          <a href="mailto:devyasir001@gmail.com" class="btn btn-lg" style="background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.15)">
+            Email devyasir001@gmail.com
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ARTICLE PREVIEW MODAL -->
+  <div class="article-modal-backdrop" id="articleModalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="article-modal" id="articleModal">
+      <div class="article-modal__header">
+        <button class="article-modal__close" id="modalCloseBtn" aria-label="Close modal">×</button>
+        <span class="article-modal__cat" id="modalCat">Category</span>
+        <h2 class="article-modal__title" id="modalTitle">Article Title</h2>
+        <div class="article-modal__meta">
+          <span id="modalDate">Date</span>
+          <span>·</span>
+          <span id="modalReadTime">Read time</span>
+          <span>·</span>
+          <span>By Yasir Malik</span>
+        </div>
+      </div>
+      <div class="article-modal__content">
+        <p id="modalExcerpt" style="font-size:16px;line-height:1.75;margin-bottom:20px;color:var(--text);font-weight:500;"></p>
+        
+        <div class="article-modal__takeaways">
+          <h4>Key Engineering Takeaways</h4>
+          <ul id="modalTakeaways">
+            <li>Production-tested architecture validated across live Shopify storefronts.</li>
+            <li>Zero bloat — engineered for Core Web Vitals (INP, LCP, CLS) optimization.</li>
+            <li>Maintainable code standards with full documentation and backwards compatibility.</li>
+            <li>Defensive error handling to prevent checkout drop-offs and API rate limiting.</li>
+          </ul>
+        </div>
+
+        <p style="font-size:14px;color:var(--text-dim);line-height:1.7;">
+          This technical guide is part of Yasir Malik's engineering knowledge base drawn from over 140+ international store builds and 9+ years of Shopify Liquid &amp; Headless development.
+        </p>
+
+        <div class="article-modal__footer">
+          <a href="index.html#hero-form" class="btn btn-primary" id="modalDiscussBtn">
+            Discuss this architecture with Yasir
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+          </a>
+          <button class="btn btn-ghost" id="modalDoneBtn" style="color:var(--text);border-color:var(--border);">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <div class="logo-mark">
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="32" height="32" rx="8" fill="#152238" stroke="rgba(255,255,255,0.15)"/>
+                <path d="M9 10L14 17V22H18V17L23 10H19L16 14.5L13 10H9Z" fill="#7eb5d5"/>
+                <circle cx="16" cy="7" r="1.5" fill="#16a34a"/>
+              </svg>
+            </div>
+            Yasir Malik
+          </a>
+          <p>High-converting Shopify themes, headless architectures, and CRO optimization for ambitious ecommerce brands.</p>
+          <div class="footer-socials">
+            <a href="mailto:devyasir001@gmail.com" class="social-link" aria-label="Email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </a>
+            <a href="https://github.com/Obtino001" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="index.html#hero">Home</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="index.html#testimonials">Testimonials</a></li>
+            <li><a href="index.html#pricing">Pricing</a></li>
+            <li><a href="index.html#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul class="footer-links">
+            <li><a href="index.html#services">Shopify Theme Development</a></li>
+            <li><a href="index.html#services">Headless Shopify (Hydrogen)</a></li>
+            <li><a href="index.html#services">CRO Audits &amp; Speed</a></li>
+            <li><a href="index.html#services">Shopify Plus Migrations</a></li>
+            <li><a href="index.html#services">Custom App Development</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Direct Contact</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:devyasir001@gmail.com">devyasir001@gmail.com</a></li>
+            <li><a href="index.html#hero-form">Request a quote</a></li>
+            <li><a href="index.html#schedule">Book a strategy call</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Yasir Malik. All rights reserved.</p>
+        <p style="font-size:12px; color:rgba(255,255,255,0.4)">Shopify Developer &amp; CRO Specialist</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // ── NAV SCROLL BEHAVIOR ──
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // ── ANNOUNCEMENT BAR CLOSE ──
+    const closeBtn = document.getElementById('announcement-close');
+    const bar = document.getElementById('announcement-bar');
+    if (closeBtn && bar) {
+      closeBtn.addEventListener('click', () => { bar.classList.add('hidden'); });
+    }
+
+    // ── MOBILE MENU TOGGLE ──
+    const hamburgerBtn = document.getElementById('nav-hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    function toggleMobileMenu() {
+      const isOpen = mobileMenu.classList.contains('open');
+      if (isOpen) {
+        mobileMenu.classList.remove('open');
+        mobileMenu.setAttribute('inert', '');
+        hamburgerBtn.classList.remove('open');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      } else {
+        mobileMenu.classList.add('open');
+        mobileMenu.removeAttribute('inert');
+        hamburgerBtn.classList.add('open');
+        hamburgerBtn.setAttribute('aria-expanded', 'true');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    if (hamburgerBtn) {
+      hamburgerBtn.addEventListener('click', toggleMobileMenu);
+    }
+
+    document.querySelectorAll('.mobile-menu-links a, .mobile-menu-cta a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (mobileMenu.classList.contains('open')) toggleMobileMenu();
+      });
+    });
+
+    // ── REVEAL ON SCROLL ──
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ── SEARCH & CATEGORY FILTERING ──
+    const searchInput = document.getElementById('blogSearch');
+    const catButtons = document.querySelectorAll('.cat-btn');
+    const allCards = document.querySelectorAll('.blog-card');
+
+    let currentFilter = 'all';
+    let currentSearch = '';
+
+    function filterCards() {
+      allCards.forEach(card => {
+        const title = card.querySelector('.blog-card__title').textContent.toLowerCase();
+        const excerpt = card.querySelector('.blog-card__excerpt').textContent.toLowerCase();
+        const cat = card.getAttribute('data-category');
+
+        const matchesCat = (currentFilter === 'all') || (cat && cat.toLowerCase() === currentFilter.toLowerCase());
+        const matchesSearch = !currentSearch || title.includes(currentSearch) || excerpt.includes(currentSearch) || (cat && cat.toLowerCase().includes(currentSearch));
+
+        if (matchesCat && matchesSearch) {
+          card.style.display = 'flex';
+          card.classList.add('visible');
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    catButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        catButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.getAttribute('data-filter');
+        filterCards();
+      });
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        currentSearch = e.target.value.trim().toLowerCase();
+        filterCards();
+      });
+    }
+
+    // ── ARTICLE PREVIEW MODAL ──
+    const modalBackdrop = document.getElementById('articleModalBackdrop');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+    const modalDoneBtn = document.getElementById('modalDoneBtn');
+    const modalCat = document.getElementById('modalCat');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDate = document.getElementById('modalDate');
+    const modalReadTime = document.getElementById('modalReadTime');
+    const modalExcerpt = document.getElementById('modalExcerpt');
+
+    function openModal(card) {
+      const cat = card.querySelector('.blog-card__cat').textContent;
+      const title = card.querySelector('.blog-card__title').textContent;
+      const excerpt = card.querySelector('.blog-card__excerpt').textContent;
+      const metaSpans = card.querySelectorAll('.blog-card__meta span');
+      const date = metaSpans[0] ? metaSpans[0].textContent : '2026';
+      const readTime = metaSpans[2] ? metaSpans[2].textContent : '8 min read';
+
+      modalCat.textContent = cat;
+      modalTitle.textContent = title;
+      modalExcerpt.textContent = excerpt;
+      modalDate.textContent = date;
+      modalReadTime.textContent = readTime;
+
+      modalBackdrop.classList.add('open');
+      modalBackdrop.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modalBackdrop.classList.remove('open');
+      modalBackdrop.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    allCards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal(card);
+      });
+    });
+
+    if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+    if (modalDoneBtn) modalDoneBtn.addEventListener('click', closeModal);
+    if (modalBackdrop) {
+      modalBackdrop.addEventListener('click', (e) => {
+        if (e.target === modalBackdrop) closeModal();
+      });
+    }
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalBackdrop.classList.contains('open')) closeModal();
+    });
+  </script>
+</body>
+</html>

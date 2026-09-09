@@ -215,7 +215,7 @@
     <div class="container">
       <div class="nav-inner">
         <div class="logo-wrap">
-          <a href="index.html" class="logo">
+          <a href="#" class="logo">
             <div class="logo-mark" id="logo-mark-trigger" role="button" aria-label="Logo options" aria-expanded="false">
               <img src="assets/images/Logo.png" alt="Yasir Malik"
                 style="width:34px;height:34px;border-radius:50%;object-fit:cover;display:block;">
@@ -328,96 +328,106 @@
 
           <!-- Hero Form -->
           <contact-form style="display: block; width: 100%;">
-          <div class="hero-form-wrap">
-            <div class="hero-form-stamp">
-              <svg viewBox="0 0 100 100" width="80" height="80">
-                <defs>
-                  <path id="stamp-circle" d="M 50,50 m -30,0 a 30,30 0 1,1 60,0 a 30,30 0 1,1 -60,0"></path>
-                </defs>
-                <text font-size="9" fill="var(--accent)" font-weight="600" font-family="'Plus Jakarta Sans', sans-serif">
-                  <textPath href="#stamp-circle" textLength="186" lengthAdjust="spacing">GET IN TOUCH · GET IN TOUCH ·
-                  </textPath>
-                </text>
-              </svg>
-              <span class="hero-form-stamp-plus">+</span>
-            </div>
-
-            <form class="hero-form" id="hero-form" novalidate>
-              <div class="hero-form-row">
-                <div class="hero-form-group premium-group">
-                  <input type="text" id="hf-name" name="name" placeholder=" " required>
-                  <label for="hf-name">Your name</label>
-                </div>
-                <div class="hero-form-group premium-group">
-                  <input type="email" id="hf-email" name="email" placeholder=" " required>
-                  <label for="hf-email">Email address</label>
-                </div>
-              </div>
-
-              <div class="hero-form-group premium-group custom-select-group">
-                <div class="custom-select-trigger" id="hf-budget-trigger" tabindex="0">
-                  <span class="custom-select-value">Select a budget range</span>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron"><path d="M6 9l6 6 6-6"></path></svg>
-                </div>
-                <label class="static-label">Budget</label>
-                <input type="hidden" id="hf-budget" name="budget" value="">
-                <div class="custom-select-options">
-                  <div class="custom-select-option" data-value="Under $500">Under $500</div>
-                  <div class="custom-select-option" data-value="$500 – $1,500">$500 – $1,500</div>
-                  <div class="custom-select-option" data-value="$1,500 – $3,000">$1,500 – $3,000</div>
-                  <div class="custom-select-option" data-value="$3,000+">$3,000+</div>
-                </div>
-              </div>
-
-              <div class="hero-form-group premium-group">
-                <textarea id="hf-message" name="message" placeholder=" " rows="4" required></textarea>
-                <label for="hf-message">Tell me about your project...</label>
-              </div>
-
-              <button type="submit" class="btn btn-primary hero-form-submit" id="hf-submit">
-                Send enquiry
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
-              </button>
-
-              <div id="hf-error"
-                style="display:none; padding:14px 18px; border-radius:10px; margin-top:12px; font-size:13px; background:rgba(220,38,38,0.12); border:1px solid rgba(220,38,38,0.25); color:#f87171;">
-                Please provide your name, valid email, and project message.
-              </div>
-            </form>
-
-            <!-- CELEBRATORY SUCCESS CARD WITH DRAWING CHECKMARK -->
-            <div id="hf-success-card" class="hero-form-success-card">
-              <div class="success-checkmark-wrap">
-                <svg class="success-checkmark" viewBox="0 0 52 52">
-                  <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
-                  <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+            <div class="hero-form-wrap">
+              <div class="hero-form-stamp">
+                <svg viewBox="0 0 100 100" width="80" height="80">
+                  <defs>
+                    <path id="stamp-circle" d="M 50,50 m -30,0 a 30,30 0 1,1 60,0 a 30,30 0 1,1 -60,0"></path>
+                  </defs>
+                  <text font-size="9" fill="#7eb5d5" font-weight="600" font-family="'Plus Jakarta Sans', sans-serif">
+                    <textPath href="#stamp-circle" textLength="186" lengthAdjust="spacing">GET IN TOUCH · GET IN TOUCH ·
+                    </textPath>
+                  </text>
                 </svg>
+                <span class="hero-form-stamp-plus">+</span>
               </div>
-              <h3 class="success-title">Inquiry Received!</h3>
-              <p class="success-desc">
-                Thank you, <strong id="success-client-name" style="color:#ffffff;"></strong>! Your project details have
-                been logged into my client queue and sent to my inbox.
-              </p>
-              <div class="success-meta-pills">
-                <div class="success-pill">
-                  <span class="success-pill-check">✓</span>
-                  <span>Logged to Google Sheet &amp; devyasir001@gmail.com</span>
+
+              <form class="hero-form" id="hero-form" novalidate>
+                <div class="hero-form-row">
+                  <div class="hero-form-group premium-group">
+                    <input type="text" id="hf-name" name="name" placeholder=" " required>
+                    <label for="hf-name">Your name</label>
+                  </div>
+                  <div class="hero-form-group premium-group">
+                    <input type="email" id="hf-email" name="email" placeholder=" " required>
+                    <label for="hf-email">Email address</label>
+                  </div>
                 </div>
-                <div class="success-pill">
-                  <span class="success-pill-check">✓</span>
-                  <span>Direct reply within 24 business hours guaranteed</span>
+
+                <div class="hero-form-group premium-group custom-select-group">
+                  <div class="custom-select-trigger" id="hf-budget-trigger" tabindex="0">
+                    <span class="custom-select-value">Select a budget range</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" class="chevron">
+                      <path d="M6 9l6 6 6-6"></path>
+                    </svg>
+                  </div>
+                  <label class="static-label">Budget</label>
+                  <input type="hidden" id="hf-budget" name="budget" value="">
+                  <div class="custom-select-options">
+                    <div class="custom-select-option" data-value="Under $500">Under $500</div>
+                    <div class="custom-select-option" data-value="$500 – $1,500">$500 – $1,500</div>
+                    <div class="custom-select-option" data-value="$1,500 – $3,000">$1,500 – $3,000</div>
+                    <div class="custom-select-option" data-value="$3,000+">$3,000+</div>
+                  </div>
                 </div>
-                <div class="success-pill">
-                  <span class="success-pill-check">✓</span>
-                  <span>100% confidential &amp; NDA protected</span>
+
+                <div class="hero-form-group premium-group">
+                  <textarea id="hf-message" name="message" placeholder=" " rows="4" required></textarea>
+                  <label for="hf-message">Tell me about your project...</label>
                 </div>
+
+                <button type="submit" class="btn btn-primary hero-form-submit" id="hf-submit">
+                  Send enquiry
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" style="width: 18px; height: 18px;">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                  </svg>
+                </button>
+
+                <div id="hf-error"
+                  style="display:none; padding:14px 18px; border-radius:10px; margin-top:12px; font-size:13px; background:rgba(220,38,38,0.12); border:1px solid rgba(220,38,38,0.25); color:#f87171;">
+                  Please provide your name, valid email, and project message.
+                </div>
+              </form>
+
+              <!-- CELEBRATORY SUCCESS CARD WITH DRAWING CHECKMARK -->
+              <div id="hf-success-card" class="hero-form-success-card">
+                <div class="success-checkmark-wrap">
+                  <svg class="success-checkmark" viewBox="0 0 52 52">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                  </svg>
+                </div>
+                <h3 class="success-title">Inquiry Received!</h3>
+                <p class="success-desc">
+                  Thank you, <strong id="success-client-name" style="color:#ffffff;"></strong>! Your project details
+                  have
+                  been logged into my client queue and sent to my inbox.
+                </p>
+                <div class="success-meta-pills">
+                  <div class="success-pill">
+                    <span class="success-pill-check">✓</span>
+                    <span>Logged to Google Sheet &amp; devyasir001@gmail.com</span>
+                  </div>
+                  <div class="success-pill">
+                    <span class="success-pill-check">✓</span>
+                    <span>Direct reply within 24 business hours guaranteed</span>
+                  </div>
+                  <div class="success-pill">
+                    <span class="success-pill-check">✓</span>
+                    <span>100% confidential &amp; NDA protected</span>
+                  </div>
+                </div>
+                <button type="button" class="btn-reset-form" id="hf-reset-btn">
+                  Send another message
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                  </svg>
+                </button>
               </div>
-              <button type="button" class="btn-reset-form" id="hf-reset-btn">
-                Send another message
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
-              </button>
             </div>
-          </div>
           </contact-form>
         </div>
       </div>
@@ -1041,12 +1051,12 @@
     </section>
 
     <!-- CASE STUDY SPOTLIGHT -->
-    <section class="section" style="background:var(--bg-2)">
+    <section class="section" style="background:#0f1520">
       <div class="container">
         <div class="teaser-split">
           <div class="teaser-content reveal">
-            <div class="eyebrow" style="color:var(--accent); border-color:rgba(149,231,63,0.3)">Case study spotlight</div>
-            <h2 class="display" style="color:var(--text)">Proven results, real data</h2>
+            <div class="eyebrow" style="color:#7eb5d5; border-color:rgba(126,181,213,0.3)">Case study spotlight</div>
+            <h2 class="display" style="color:#f9f9f8">Proven results, real data</h2>
             <p style="color:rgba(249,249,248,0.6)">Detailed architectural breakdowns of bottlenecks, UX friction, and
               custom Liquid engineering that turned struggling funnels into revenue drivers.</p>
             <a href="#hero-form" class="btn btn-primary btn-lg">
@@ -1080,7 +1090,7 @@
 
     <!-- MEET YOUR DEVELOPER -->
     <section id="about-founder" class="section"
-      style="background:var(--bg);position:relative;overflow:hidden;padding:100px 0;">
+      style="background:#0c1424;position:relative;overflow:hidden;padding:100px 0;">
       <div class="container">
         <div class="founder-grid">
           <div class="reveal"
@@ -1088,10 +1098,10 @@
             <img src="assets/images/Yasir-image.png" alt="Yasir Malik — Senior Shopify Developer"
               style="width:100%;height:440px;object-fit:cover;object-position:top center;display:block;">
             <div
-              style="position:absolute;bottom:0;left:0;right:0;padding:24px;background:linear-gradient(to top, rgba(13,19,18,0.95), transparent);display:flex;align-items:center;justify-content:space-between;">
+              style="position:absolute;bottom:0;left:0;right:0;padding:24px;background:linear-gradient(to top, rgba(12,20,36,0.95), transparent);display:flex;align-items:center;justify-content:space-between;">
               <div>
                 <div style="font-weight:700;color:#fff;font-size:18px;">Yasir Malik</div>
-                <div style="font-size:12px;color:var(--accent);font-weight:600;letter-spacing:0.04em;">Senior Shopify &amp;
+                <div style="font-size:12px;color:#7eb5d5;font-weight:600;letter-spacing:0.04em;">Senior Shopify &amp;
                   CRO Engineer</div>
               </div>
               <span
@@ -1100,9 +1110,9 @@
             </div>
           </div>
           <div class="reveal reveal-delay-1">
-            <div class="eyebrow" style="margin-bottom:16px;color:var(--accent);border-color:rgba(149,231,63,0.3);">Direct
+            <div class="eyebrow" style="margin-bottom:16px;color:#7eb5d5;border-color:rgba(126,181,213,0.3);">Direct
               Collaboration</div>
-            <h2 class="display" style="color:var(--text);margin-bottom:20px;">Work directly with the developer who builds
+            <h2 class="display" style="color:#f9f9f8;margin-bottom:20px;">Work directly with the developer who builds
               your store</h2>
             <p style="color:rgba(249,249,248,0.7);font-size:16px;line-height:1.75;margin-bottom:18px;">
               When you partner with me, you speak directly with the senior developer designing your theme architecture,
@@ -1253,7 +1263,7 @@
     <section id="schedule" class="section">
       <div class="container">
         <div class="schedule-box reveal">
-          <div class="eyebrow" style="margin-bottom:16px; color:var(--accent); border-color:rgba(149,231,63,0.3)">Free
+          <div class="eyebrow" style="margin-bottom:16px; color:#7eb5d5; border-color:rgba(126,181,213,0.3)">Free
             Strategy Call</div>
           <h2 class="display">Let's discuss your store's roadmap</h2>
           <p>Book a direct 45-minute consultation. We'll inspect your store, identify conversion bottlenecks, and map
@@ -1379,7 +1389,7 @@
     <section id="cta">
       <div class="container">
         <div class="cta-box reveal">
-          <div class="eyebrow" style="margin-bottom:16px; color:var(--accent); border-color:rgba(149,231,63,0.3)">Free store
+          <div class="eyebrow" style="margin-bottom:16px; color:#7eb5d5; border-color:rgba(126,181,213,0.3)">Free store
             consultation</div>
           <h2 class="display">Ready to scale your Shopify store?</h2>
           <p>Let's evaluate your store's speed, UX, and conversion barriers. Get a clear engineering roadmap tailored to
@@ -1411,7 +1421,7 @@
     <div class="container">
       <div class="footer-top">
         <div class="footer-brand">
-          <a href="index.html" class="logo">
+          <a href="#" class="logo">
             <div class="logo-mark">
               <img src="assets/images/Logo.png" alt="Yasir Malik"
                 style="width:30px;height:30px;border-radius:50%;object-fit:cover;display:block;">

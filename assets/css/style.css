@@ -1009,3 +1009,134 @@ body.theme-shopify-electric .hero-title .gradient-text {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* ==========================================================================
+   FORM LOADER & CELEBRATORY SUCCESS ANIMATIONS
+   ========================================================================== */
+.btn-spinner {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin-loader 0.65s linear infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+@keyframes spin-loader {
+  to { transform: rotate(360deg); }
+}
+
+.hero-form-success-card {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 36px 24px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.08) 0%, rgba(13, 22, 38, 0.6) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(16, 185, 129, 0.15);
+  animation: success-pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes success-pop {
+  0% { opacity: 0; transform: scale(0.92) translateY(12px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.success-checkmark-wrap {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 18px;
+}
+.success-checkmark {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2.8;
+  stroke: #10b981;
+  stroke-miterlimit: 10;
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.35);
+}
+.checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2.8;
+  stroke-miterlimit: 10;
+  stroke: #10b981;
+  fill: none;
+  animation: stroke-circle 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+.checkmark-check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke: #10b981;
+  animation: stroke-check 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.5s forwards;
+}
+@keyframes stroke-circle {
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes stroke-check {
+  100% { stroke-dashoffset: 0; }
+}
+
+.success-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 8px;
+}
+.success-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #cbd5e1;
+  max-width: 360px;
+  margin: 0 auto 20px;
+}
+.success-meta-pills {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 340px;
+  margin-bottom: 24px;
+}
+.success-pill {
+  font-size: 12px;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 8px 12px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.success-pill-check {
+  color: #10b981;
+  font-weight: bold;
+}
+.btn-reset-form {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #f8fafc;
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-reset-form:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}

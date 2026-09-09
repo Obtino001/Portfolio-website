@@ -155,13 +155,13 @@
 
   <!-- Navigation -->
   <nav id="nav">
-    <div class="announcement-bar" id="announcement-bar">
+    <announcement-bar><div class="announcement-bar" id="announcement-bar">
       <span class="announcement-dot"></span>
       <span class="ann-text-full">Now accepting new Shopify development &amp; CRO projects for Q3 &amp; Q4</span>
       <span class="ann-text-short">Now accepting new Shopify projects</span>
       <a href="index.html#hero-form" class="ann-cta">Get in touch</a>
       <button class="announcement-close" id="announcement-close" aria-label="Close announcement">×</button>
-    </div>
+    </div></announcement-bar>
     <div class="container">
       <div class="nav-inner">
         <div class="logo-wrap">
@@ -194,7 +194,7 @@
   </nav>
 
   <!-- Mobile Menu -->
-  <div class="mobile-menu" id="mobile-menu" aria-hidden="true" inert>
+  <mobile-nav><div class="mobile-menu" id="mobile-menu" aria-hidden="true" inert>
     <ul class="mobile-menu-links">
       <li><a href="index.html#hero">Home</a></li>
       <li><a href="index.html#services">Services</a></li>
@@ -208,7 +208,7 @@
     </ul>
     <div class="mobile-menu-cta">
       <a href="index.html#schedule" class="btn btn-primary btn-lg">Book a free strategy call</a>
-    </div>
+    </div></mobile-nav>
   </div>
 
   <main>
@@ -2038,8 +2038,8 @@
   <!-- SCRIPTS -->
   
 
-  <!-- External Modular Scripts -->
-  <script src="assets/js/main.js" defer></script>
-  <script src="assets/js/blog.js" defer></script>
+    <!-- External Modular Web Components -->
+  <script src="assets/js/components/main-components.js" defer></script>
+  <script src="assets/js/components/blog-components.js" defer></script>
 </body>
 </html>

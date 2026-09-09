@@ -597,3 +597,51 @@
       .blog-categories::-webkit-scrollbar { display: none; }
       .cat-btn { white-space: nowrap; flex-shrink: 0; }
     }
+
+/* ── WEB COMPONENTS DISPLAY TOKENS ── */
+announcement-bar, mobile-nav, logo-popover, scroll-reveal, project-modal, faq-accordion, contact-form, blog-filter, article-modal {
+  display: contents;
+}
+
+/* ==========================================================================
+   SHOPIFY COLOR PALETTES (Non-Destructive Theme Options)
+   
+   HOW TO TEST:
+   - Add data-theme="shopify-signature" to <body> or <html> for Official Shopify Green.
+   - Add data-theme="shopify-electric" to <body> or <html> for Modern Vibrant Mint/Emerald.
+   - Remove the attribute to instantly revert to the original slate steel theme!
+   ========================================================================== */
+
+/* Option 1: Official Shopify Signature (Polaris Green + Deep Forest) */
+[data-theme="shopify-signature"],
+body.theme-shopify-signature {
+  --accent: #008060;
+  --accent-2: #004c3f;
+  --accent-glow: rgba(0, 128, 96, 0.16);
+  --green: #10b981;
+}
+
+[data-theme="shopify-signature"] .hero-title .gradient-text,
+body.theme-shopify-signature .hero-title .gradient-text {
+  background: linear-gradient(94deg, #10b981 0%, #008060 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Option 2: Modern Shopify Electric (Vibrant Mint + High-Contrast Emerald) */
+[data-theme="shopify-electric"],
+body.theme-shopify-electric {
+  --accent: #00a86b;
+  --accent-2: #008050;
+  --accent-glow: rgba(0, 168, 107, 0.2);
+  --green: #00e599;
+}
+
+[data-theme="shopify-electric"] .hero-title .gradient-text,
+body.theme-shopify-electric .hero-title .gradient-text {
+  background: linear-gradient(94deg, #00e599 0%, #00a86b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

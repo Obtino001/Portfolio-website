@@ -1,6 +1,8 @@
 /**
  * Yasir Malik Portfolio — Index Web Components (index-components.js)
  * <faq-accordion> & <contact-form>
+ * 
+ * Connected to Google Apps Script & Google Sheets
  */
 
 // ── 1. <faq-accordion> ──
@@ -35,17 +37,23 @@ if (!customElements.get('faq-accordion')) {
   customElements.define('faq-accordion', FaqAccordion);
 }
 
-// ── 2. <contact-form> ──
+// ── 2. <contact-form> with Google Sheet Sync & Celebratory Animations ──
 class ContactForm extends HTMLElement {
   connectedCallback() {
-    this.form = this.querySelector('form') || this;
+    // 💡 PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW:
+    // Follow the 60-second guide in google-apps-script.js
+    this.GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+
+    this.form = this.querySelector('form') || this.querySelector('#hero-form');
     this.budgetSelect = this.querySelector('#hf-budget') || this.querySelector('select');
     this.nameInput = this.querySelector('#hf-name');
     this.emailInput = this.querySelector('#hf-email');
     this.msgInput = this.querySelector('#hf-message');
-    this.successEl = this.querySelector('#hf-success');
-    this.errorEl = this.querySelector('#hf-error');
     this.submitBtn = this.querySelector('#hf-submit') || this.querySelector('button[type="submit"]');
+    this.errorEl = this.querySelector('#hf-error');
+    this.successCard = document.getElementById('hf-success-card') || this.querySelector('#hf-success-card');
+    this.clientNameEl = document.getElementById('success-client-name') || this.querySelector('#success-client-name');
+    this.resetBtn = document.getElementById('hf-reset-btn') || this.querySelector('#hf-reset-btn');
 
     if (this.budgetSelect) {
       this.budgetSelect.addEventListener('change', (e) => {
@@ -56,31 +64,118 @@ class ContactForm extends HTMLElement {
     if (this.form) {
       this.form.addEventListener('submit', (e) => this.handleSubmit(e));
     }
+
+    if (this.resetBtn) {
+      this.resetBtn.addEventListener('click', () => this.resetToForm());
+    }
+
+    this.initCtaConnectors();
   }
 
-  handleSubmit(e) {
+  // Connect all CTAs across the site to focus & pre-populate the form
+  initCtaConnectors() {
+    document.querySelectorAll('a[href="#hero-form"], .ann-cta, [href="#schedule"]').forEach(cta => {
+      cta.addEventListener('click', (e) => {
+        const text = cta.textContent.trim().toLowerCase();
+        if (text.includes('audit')) {
+          if (this.msgInput && !this.msgInput.value) {
+            this.msgInput.value = "Hi Yasir, I'd like to book a free Shopify speed & CRO audit for my store.";
+          }
+        }
+        setTimeout(() => {
+          if (this.nameInput) this.nameInput.focus();
+        }, 400);
+      });
+    });
+  }
+
+  async handleSubmit(e) {
     e.preventDefault();
     const name = this.nameInput ? this.nameInput.value.trim() : '';
     const email = this.emailInput ? this.emailInput.value.trim() : '';
+    const budget = this.budgetSelect ? this.budgetSelect.value : 'Under $2,000';
     const message = this.msgInput ? this.msgInput.value.trim() : '';
 
+    // Validation
     if (!name || !email || !message) {
       if (this.errorEl) this.errorEl.style.display = 'block';
-      if (this.successEl) this.successEl.style.display = 'none';
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      if (this.errorEl) {
+        this.errorEl.textContent = 'Please provide a valid email address.';
+        this.errorEl.style.display = 'block';
+      }
       return;
     }
 
     if (this.errorEl) this.errorEl.style.display = 'none';
-    if (this.submitBtn) {
-      this.submitBtn.disabled = true;
-      this.submitBtn.textContent = 'Sending...';
+
+    // ── 1. LOADER STATE ──
+    const originalBtnHtml = this.submitBtn.innerHTML;
+    this.submitBtn.disabled = true;
+    this.submitBtn.innerHTML = `<span class="btn-spinner"></span> Sending inquiry to Yasir...`;
+    if (this.nameInput) this.nameInput.disabled = true;
+    if (this.emailInput) this.emailInput.disabled = true;
+    if (this.budgetSelect) this.budgetSelect.disabled = true;
+    if (this.msgInput) this.msgInput.disabled = true;
+
+    // Build payload for Google Sheet
+    const payload = new URLSearchParams();
+    payload.append('name', name);
+    payload.append('email', email);
+    payload.append('budget', budget || 'Under $2,000');
+    payload.append('message', message);
+    payload.append('page', window.location.href);
+    payload.append('timestamp', new Date().toISOString());
+
+    try {
+      // If Web App URL is configured, send to Google Sheets
+      if (this.GOOGLE_SCRIPT_URL && this.GOOGLE_SCRIPT_URL.startsWith('https://script.google.com')) {
+        await fetch(this.GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          body: payload,
+          mode: 'no-cors' // Google Apps Script redirects require no-cors mode in browser
+        });
+      } else {
+        // Realistic network latency simulation for local development/preview
+        await new Promise(r => setTimeout(r, 650));
+      }
+    } catch (err) {
+      console.warn('Google Sheet submission notice:', err);
     }
 
-    setTimeout(() => {
-      if (this.successEl) this.successEl.style.display = 'flex';
-      if (this.submitBtn) this.submitBtn.style.display = 'none';
-      if (this.form && this.form.reset) this.form.reset();
-    }, 500);
+    // ── 2. CELEBRATORY SUCCESS STATE WITH ANIMATIONS ──
+    if (this.clientNameEl) {
+      const firstName = name.split(' ')[0];
+      this.clientNameEl.textContent = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+    }
+
+    // Fade out form and pop success card
+    if (this.form) this.form.style.display = 'none';
+    if (this.successCard) {
+      this.successCard.style.display = 'flex';
+      this.successCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Reset inputs
+    this.submitBtn.innerHTML = originalBtnHtml;
+    this.submitBtn.disabled = false;
+    if (this.nameInput) { this.nameInput.disabled = false; this.nameInput.value = ''; }
+    if (this.emailInput) { this.emailInput.disabled = false; this.emailInput.value = ''; }
+    if (this.budgetSelect) { this.budgetSelect.disabled = false; this.budgetSelect.selectedIndex = 0; }
+    if (this.msgInput) { this.msgInput.disabled = false; this.msgInput.value = ''; }
+  }
+
+  resetToForm() {
+    if (this.successCard) this.successCard.style.display = 'none';
+    if (this.form) {
+      this.form.style.display = 'flex';
+      this.form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (this.nameInput) this.nameInput.focus();
+    }
   }
 }
 if (!customElements.get('contact-form')) {

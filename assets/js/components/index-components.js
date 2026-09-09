@@ -55,9 +55,42 @@ class ContactForm extends HTMLElement {
     this.clientNameEl = document.getElementById('success-client-name') || this.querySelector('#success-client-name');
     this.resetBtn = document.getElementById('hf-reset-btn') || this.querySelector('#hf-reset-btn');
 
-    if (this.budgetSelect) {
+    if (this.budgetSelect && !this.querySelector('.custom-select-group')) {
       this.budgetSelect.addEventListener('change', (e) => {
         e.target.style.color = e.target.value ? '#111827' : '#9aa3b0';
+      });
+    }
+
+    // Premium Custom Dropdown Logic
+    this.customSelectGroup = this.querySelector('.custom-select-group');
+    this.customSelectTrigger = this.querySelector('.custom-select-trigger');
+    this.customSelectValue = this.querySelector('.custom-select-value');
+    this.customSelectOptions = this.querySelectorAll('.custom-select-option');
+    
+    if (this.customSelectGroup && this.customSelectTrigger) {
+      this.customSelectValue.classList.add('placeholder-active');
+      this.customSelectTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.customSelectGroup.classList.toggle('open');
+      });
+      
+      this.customSelectOptions.forEach(option => {
+        option.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const val = option.getAttribute('data-value');
+          this.customSelectValue.textContent = val;
+          this.customSelectValue.classList.remove('placeholder-active');
+          if (this.budgetSelect) this.budgetSelect.value = val;
+          this.customSelectGroup.classList.remove('open');
+          const label = this.customSelectGroup.querySelector('label');
+          if (label) label.classList.add('active');
+        });
+      });
+      
+      document.addEventListener('click', (e) => {
+        if (!this.customSelectGroup.contains(e.target)) {
+          this.customSelectGroup.classList.remove('open');
+        }
       });
     }
 

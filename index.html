@@ -343,31 +343,34 @@
 
             <form class="hero-form" id="hero-form" novalidate>
               <div class="hero-form-row">
-                <div class="hero-form-group">
-                  <label for="hf-name">Name</label>
-                  <input type="text" id="hf-name" name="name" placeholder="Your name" required>
+                <div class="hero-form-group premium-group">
+                  <input type="text" id="hf-name" name="name" placeholder=" " required>
+                  <label for="hf-name">Your name</label>
                 </div>
-                <div class="hero-form-group">
-                  <label for="hf-email">Email</label>
-                  <input type="email" id="hf-email" name="email" placeholder="your@email.com" required>
+                <div class="hero-form-group premium-group">
+                  <input type="email" id="hf-email" name="email" placeholder=" " required>
+                  <label for="hf-email">Email address</label>
                 </div>
               </div>
 
-              <div class="hero-form-group">
-                <label for="hf-budget">Budget</label>
-                <select id="hf-budget" name="budget" style="color:#9aa3b0">
-                  <option value="" disabled selected>Select a range</option>
-                  <option>Under $2,000</option>
-                  <option>$2,000 – $5,000</option>
-                  <option>$5,000 – $10,000</option>
-                  <option>$10,000+</option>
-                </select>
+              <div class="hero-form-group premium-group custom-select-group">
+                <div class="custom-select-trigger" id="hf-budget-trigger" tabindex="0">
+                  <span class="custom-select-value">Select a budget range</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron"><path d="M6 9l6 6 6-6"></path></svg>
+                </div>
+                <label class="static-label">Budget</label>
+                <input type="hidden" id="hf-budget" name="budget" value="">
+                <div class="custom-select-options">
+                  <div class="custom-select-option" data-value="Under $2,000">Under $2,000</div>
+                  <div class="custom-select-option" data-value="$2,000 – $5,000">$2,000 – $5,000</div>
+                  <div class="custom-select-option" data-value="$5,000 – $10,000">$5,000 – $10,000</div>
+                  <div class="custom-select-option" data-value="$10,000+">$10,000+</div>
+                </div>
               </div>
 
-              <div class="hero-form-group">
-                <label for="hf-message">Message</label>
-                <textarea id="hf-message" name="message" placeholder="Tell me about your store or project..." rows="4"
-                  required></textarea>
+              <div class="hero-form-group premium-group">
+                <textarea id="hf-message" name="message" placeholder=" " rows="4" required></textarea>
+                <label for="hf-message">Tell me about your project...</label>
               </div>
 
               <button type="submit" class="btn btn-primary hero-form-submit" id="hf-submit">Send enquiry

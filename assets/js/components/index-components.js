@@ -111,15 +111,34 @@ class ContactForm extends HTMLElement {
   initCtaConnectors() {
     document.querySelectorAll('a[href="#hero-form"], .ann-cta, [href="#schedule"]').forEach(cta => {
       cta.addEventListener('click', (e) => {
+        e.preventDefault(); // Stop native jump
+        
         const text = cta.textContent.trim().toLowerCase();
         if (text.includes('audit')) {
           if (this.msgInput && !this.msgInput.value) {
             this.msgInput.value = "Hi Yasir, I'd like to book a free Shopify speed & CRO audit for my store.";
           }
         }
+        
+        // Ensure success card is hidden and form is visible if it was submitted before
+        this.resetToForm();
+        
+        // Smooth scroll to the form
+        const formWrap = document.querySelector('.hero-form-wrap');
+        if (formWrap) {
+          const navOffset = 100;
+          const elementPosition = formWrap.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - navOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+
+        // Focus the name input without forcing the browser to instantly jump scroll position
         setTimeout(() => {
-          if (this.nameInput) this.nameInput.focus();
-        }, 400);
+          if (this.nameInput) this.nameInput.focus({ preventScroll: true });
+        }, 600);
       });
     });
   }

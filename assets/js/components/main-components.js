@@ -132,33 +132,23 @@ if (!customElements.get('logo-popover')) {
   customElements.define('logo-popover', LogoPopover);
 }
 
-// ── 4. <scroll-reveal> ──
-class ScrollReveal extends HTMLElement {
-  connectedCallback() {
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.08 });
+// ── 4. Scroll Reveal (Intersection Observer) ──
+(function initScrollReveal() {
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
 
-      const targets = this.querySelectorAll('.reveal');
-      if (targets.length > 0) {
-        targets.forEach(el => observer.observe(el));
-      } else {
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-      }
-    } else {
-      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
-    }
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
   }
-}
-if (!customElements.get('scroll-reveal')) {
-  customElements.define('scroll-reveal', ScrollReveal);
-}
+})();
 
 // ── Global sticky nav & smooth scroll listeners ──
 (function initGlobalBehaviors() {

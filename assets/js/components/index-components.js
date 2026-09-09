@@ -41,7 +41,7 @@ if (!customElements.get('faq-accordion')) {
 class ContactForm extends HTMLElement {
   connectedCallback() {
     // 💡 PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW:
-    this.GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzyxmPjJ_N_dXGYahoHHK4uSuG20hV2rksIyZPTtqL_-s61a4fZdchM8TFRxwRHankm/exec';
+    this.GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyi0U7hIDPaSmuJyZP5Gz4bsmRqeagG1khy58XtkEA-7xUBk6t8DYHue8_CkqBanVTd/exec';
 
     // Wait for children to be parsed
     setTimeout(() => {

@@ -564,13 +564,29 @@ class ProjectModal extends HTMLElement {
     });
 
     if (this.ctaBtn) {
-      this.ctaBtn.addEventListener('click', () => this.close());
+      this.ctaBtn.addEventListener('click', () => {
+        this.close();
+        const currentProject = this.currentProjectData;
+        setTimeout(() => {
+          const msgInput = document.getElementById('hf-message');
+          const nameInput = document.getElementById('hf-name');
+          const form = document.getElementById('hero-form');
+          if (form) {
+            form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+          if (msgInput && currentProject) {
+            msgInput.value = `Hi Yasir, I'm interested in discussing a project similar to ${currentProject.client} (${currentProject.category}). Let's connect!`;
+          }
+          if (nameInput) nameInput.focus();
+        }, 300);
+      });
     }
   }
 
   open(key) {
     const data = this.projectDB[key];
     if (!data || !this.backdrop) return;
+    this.currentProjectData = data;
 
     if (this.catEl) this.catEl.textContent = data.category || 'Shopify';
     if (this.timeEl) this.timeEl.textContent = data.timeframe || 'Delivered on Schedule';

@@ -1,0 +1,17 @@
+{
+  "name": "Yasir Malik | Shopify Development & CRO Expert",
+  "short_name": "Yasir Malik",
+  "description": "Upwork Top Rated Shopify Developer & CRO Specialist. 9+ years experience, 140+ international stores built.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d1424",
+  "theme_color": "#0d1424",
+  "icons": [
+    {
+      "src": "Logo.png",
+      "sizes": "192x192 512x512 1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

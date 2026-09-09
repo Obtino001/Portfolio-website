@@ -5,12 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shopify Insights &amp; Engineering Blog | Yasir Malik</title>
   <meta name="description" content="Practical guides on Shopify performance, conversion rate optimization, Liquid development, and migrations — written from 9+ years of hands-on engineering experience.">
+  <meta name="keywords" content="Shopify Blog, Shopify Development Guides, Shopify CRO Tips, Liquid Metafields Guide, Shopify Speed Guide, Shopify Plus Migration">
+  <meta name="author" content="Yasir Malik">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="theme-color" content="#0d1424">
+  <link rel="canonical" href="https://yasirmalik.dev/blog.html">
+  <link rel="manifest" href="site.webmanifest">
   
   <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="blog">
+  <meta property="og:url" content="https://yasirmalik.dev/blog.html">
   <meta property="og:title" content="Shopify Insights &amp; Engineering Blog | Yasir Malik">
-  <meta property="og:description" content="Practical guides on Shopify performance, conversion optimization, development, and migrations — written from 9+ years of hands-on experience, not theory.">
+  <meta property="og:description" content="Practical guides on Shopify performance, conversion optimization, development, and migrations — written from 9+ years of hands-on experience.">
   <meta property="og:site_name" content="Yasir Malik Portfolio">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://yasirmalik.dev/assets/images/Yasir-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+  <meta property="og:image:alt" content="Yasir Malik Shopify Insights Blog">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Shopify Insights &amp; Engineering Blog | Yasir Malik">
+  <meta name="twitter:description" content="Practical guides on Shopify performance, conversion optimization, development, and migrations.">
+  <meta name="twitter:image" content="https://yasirmalik.dev/assets/images/Yasir-image.png">
   
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,611 +36,120 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="Logo.png">
-  <link rel="apple-touch-icon" href="Logo.png">
+  <link rel="icon" type="image/png" href="assets/images/Logo.png">
+  <link rel="apple-touch-icon" href="assets/images/Logo.png">
 
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #edf1f7;
-      --bg-2: #e4e9f2;
-      --bg-3: #d6dce8;
-      --bg-card: #ffffff;
-      --border: rgba(15,20,40,0.08);
-      --border-hover: rgba(15,20,40,0.18);
-      --text: #111827;
-      --text-muted: #475569;
-      --text-dim: #556070;
-      --accent: #4a6785;
-      --accent-2: #3a5570;
-      --accent-glow: rgba(74,103,133,0.12);
-      --green: #16a34a;
-      --radius: 20px;
-      --radius-sm: 100px;
-      --transition: 0.2s ease;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      font-size: 16px;
-      line-height: 1.5em;
-      letter-spacing: -0.32px;
-      overflow-x: hidden;
-      font-synthesis: none;
-    }
-    p { font-size: 16px; line-height: 1.5em; letter-spacing: -0.32px; }
-
-    /* ── SCROLLBAR ── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg-2); }
-    ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 3px; }
-
-    /* ── TYPOGRAPHY ── */
-    h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; line-height: 1.2em; letter-spacing: -0.02em; margin: 0 0 24px; }
-    h1 { font-size: clamp(35px, 3.333vw, 48px); letter-spacing: -1.28px; }
-    strong, b, th { font-weight: 600; }
-    .display { font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(32px, 4vw, 50px); line-height: 1.25em; letter-spacing: -0.03em; }
-    .eyebrow {
-      display: inline-block;
-      font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      border-radius: 100px;
-      padding: 4px 12px;
-      width: fit-content;
-    }
-
-    /* ── LAYOUT ── */
-    .container { max-width: 1340px; margin: 0 auto; padding: 0 24px; }
-    .section { padding: 120px 0; position: relative; }
-
-    /* ── ANNOUNCEMENT BAR ── */
-    .announcement-bar {
-      background: rgba(5,9,20,0.94);
-      backdrop-filter: blur(8px);
-      height: 38px; display: flex; align-items: center; justify-content: center; gap: 8px;
-      font-size: 12px; color: rgba(255,255,255,0.7);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      position: relative; white-space: nowrap; overflow: hidden;
-      padding: 0 48px;
-    }
-    .announcement-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-    .announcement-bar a {
-      color: rgba(255,255,255,0.92); text-decoration: none; font-style: normal; font-weight: 500;
-      padding: 2px 10px; background: rgba(255,255,255,0.1); border-radius: 100px;
-      margin-left: 2px; transition: background 0.2s;
-    }
-    .announcement-bar a:hover { background: rgba(255,255,255,0.18); }
-    .announcement-close {
-      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-      background: rgba(255,255,255,0.08); border: none; cursor: pointer;
-      color: rgba(255,255,255,0.7); font-size: 16px; line-height: 1;
-      width: 26px; height: 26px; border-radius: 50%;
-      display: grid; place-items: center; transition: all 0.2s; z-index: 10;
-    }
-    .announcement-close:hover { background: rgba(255,255,255,0.2); color: #fff; }
-    .announcement-bar.hidden { display: none; }
-    .ann-text-short { display: none; }
-    @media (max-width: 640px) {
-      .announcement-bar { padding: 0 42px 0 12px; font-size: 11px; }
-      .ann-text-full { display: none; }
-      .ann-text-short { display: inline; font-size: 11.5px; }
-      .ann-cta { font-size: 10.5px; padding: 2px 8px; }
-    }
-
-    /* ── NAVIGATION ── */
-    nav {
-      position: sticky; top: 0; z-index: 1000;
-      background: rgba(15,21,32,0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      transition: background 0.3s;
-    }
-    nav.scrolled {
-      background: rgba(10,15,25,0.98);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
-    }
-    .nav-inner {
-      display: flex; align-items: center; justify-content: space-between;
-      height: 72px;
-    }
-    .logo-wrap { position: relative; display: flex; align-items: center; }
-    .logo {
-      font-size: 18px; font-weight: 700; color: #fff;
-      text-decoration: none; letter-spacing: -0.02em;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .logo-mark {
-      display: inline-flex; align-items: center; justify-content: center;
-      transition: transform 0.2s ease;
-    }
-    .logo:hover .logo-mark { transform: scale(1.05); }
-    .nav-links {
-      display: flex; align-items: center; gap: 32px; list-style: none;
-    }
-    .nav-links a {
-      font-size: 14px; color: rgba(240,242,245,0.65);
-      text-decoration: none; transition: color var(--transition);
-      font-weight: 500;
-    }
-    .nav-links a:hover, .nav-links a.nav-active { color: #ffffff; font-weight: 600; }
-    .nav-cta { display: flex; align-items: center; gap: 12px; }
-    .nav-hamburger {
-      display: none; flex-direction: column; gap: 5px;
-      background: none; border: none; cursor: pointer; padding: 4px;
-    }
-    .nav-hamburger span {
-      width: 22px; height: 2px; background: #fff;
-      border-radius: 2px; transition: 0.3s;
-    }
-    .nav-hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
-    .nav-hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-    /* Mobile Menu */
-    .mobile-menu {
-      position: fixed; inset: 0;
-      background: rgba(8, 14, 25, 0.98);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      z-index: 1050;
-      display: flex; flex-direction: column; justify-content: space-between;
-      padding: 100px 28px 40px;
-      opacity: 0; pointer-events: none; transform: translateY(-10px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      overflow-y: auto;
-    }
-    .mobile-menu.open { opacity: 1; pointer-events: all; transform: translateY(0); }
-    .mobile-menu-links { list-style: none; display: flex; flex-direction: column; gap: 16px; margin-bottom: 30px; }
-    .mobile-menu-links a { font-size: 20px; color: rgba(240,242,245,0.75); text-decoration: none; font-weight: 500; display: inline-block; transition: color 0.2s ease, transform 0.2s ease; }
-    .mobile-menu-links a:hover, .mobile-menu-links a.nav-active { color: #fff; font-weight: 700; transform: translateX(6px); }
-    .mobile-menu-cta { margin-top: auto; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; }
-    .mobile-menu-cta .btn { width: 100%; justify-content: center; }
-
-    .nav-hamburger {
-      display: none; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
-      width: 40px; height: 40px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 8px; cursor: pointer; padding: 0; z-index: 1100;
-    }
-    .nav-hamburger span {
-      display: block; width: 20px; height: 2px;
-      background: #ffffff !important; border-radius: 2px;
-      transition: transform 0.25s ease, opacity 0.25s ease;
-      transform-origin: center;
-    }
-    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
-    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-    /* ── BUTTONS ── */
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 10px 20px; border-radius: var(--radius-sm);
-      font-size: 14px; font-weight: 600; text-decoration: none;
-      transition: all var(--transition); cursor: pointer;
-      border: none; white-space: nowrap; line-height: 1;
-    }
-    .btn-primary {
-      background: var(--accent); color: #fff;
-      box-shadow: 0 2px 10px rgba(74,103,133,0.25);
-    }
-    .btn-primary:hover {
-      background: var(--accent-2);
-      box-shadow: 0 4px 16px rgba(74,103,133,0.3);
-      transform: translateY(-1px);
-    }
-    .btn-ghost {
-      background: transparent; color: rgba(240,242,245,0.7);
-      border: 1px solid rgba(240,242,245,0.2);
-    }
-    .btn-ghost:hover { border-color: rgba(240,242,245,0.4); color: rgba(240,242,245,1); background: rgba(255,255,255,0.08); }
-    .btn-lg { padding: 14px 28px; font-size: 15px; border-radius: 100px; }
-    .btn svg { width: 15px; height: 15px; flex-shrink: 0; }
-
-    /* ── BLOG HERO ── */
-    .blog-hero {
-      padding: 160px 0 80px; text-align: center;
-      position: relative; overflow: hidden;
-      background: #070c16;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-      background-size: 60px 60px;
-    }
-    .blog-hero::before {
-      content: ''; position: absolute; pointer-events: none;
-      width: 900px; height: 1100px;
-      background: radial-gradient(ellipse at center, rgba(18,75,110,0.55) 0%, rgba(10,45,75,0.25) 40%, transparent 70%);
-      top: -20%; left: 50%; transform: translateX(-50%) rotate(-10deg);
-    }
-    .blog-hero .container { position: relative; z-index: 1; }
-    .blog-hero .eyebrow { margin-bottom: 16px; color: rgba(149,180,210,0.85); border-color: rgba(149,180,210,0.3); }
-    .blog-hero__title {
-      font-size: clamp(34px, 4vw, 54px);
-      margin: 0 0 20px;
-      background: linear-gradient(94deg, #e8edf3 0%, #a2bfd3 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1.15;
-    }
-    .blog-hero__sub {
-      font-size: 17px;
-      color: rgba(240,242,245,0.7);
-      max-width: 680px;
-      margin: 0 auto 36px;
-      line-height: 1.65;
-    }
-
-    /* ── CONTROLS: SEARCH & CATEGORY FILTER ── */
-    .blog-controls {
-      max-width: 860px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
-    }
-    .blog-search-box {
-      width: 100%;
-      max-width: 480px;
-      position: relative;
-    }
-    .blog-search-box svg {
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 18px;
-      height: 18px;
-      color: rgba(255,255,255,0.4);
-      pointer-events: none;
-    }
-    .blog-search-input {
-      width: 100%;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 100px;
-      padding: 12px 18px 12px 46px;
-      font-size: 14px;
-      color: #fff;
-      outline: none;
-      transition: all var(--transition);
-      font-family: inherit;
-    }
-    .blog-search-input:focus {
-      background: rgba(255,255,255,0.1);
-      border-color: #7eb5d5;
-      box-shadow: 0 0 0 3px rgba(126,181,213,0.25);
-    }
-    .blog-search-input::placeholder { color: rgba(255,255,255,0.4); }
-    
-    .blog-categories {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-    }
-    .cat-btn {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: rgba(255,255,255,0.7);
-      padding: 6px 14px;
-      border-radius: 100px;
-      font-size: 12px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all var(--transition);
-      font-family: inherit;
-    }
-    .cat-btn:hover, .cat-btn.active {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-      box-shadow: 0 2px 10px rgba(74,103,133,0.3);
-    }
-
-    /* ── BLOG SECTIONS ── */
-    .blog-featured-section {
-      padding: 90px 0 60px;
-      background: var(--bg);
-    }
-    .blog-list-section {
-      padding: 70px 0;
-      background: var(--bg-2);
-    }
-    .blog-section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 48px;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-    .blog-section-head__eyebrow {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-    .blog-section-head__title {
-      font-size: clamp(28px, 3vw, 40px);
-      margin: 0;
-      letter-spacing: -0.02em;
-    }
-    .blog-section-head__sub {
-      color: var(--text-muted);
-      font-size: 15px;
-      max-width: 520px;
-      line-height: 1.65;
-    }
-
-    /* ── BLOG GRID & CARDS ── */
-    .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-    }
-    .blog-grid--featured {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 26px;
-    }
-    .blog-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 30px 32px;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-      position: relative;
-      cursor: pointer;
-    }
-    .blog-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.06);
-      border-color: var(--border-hover);
-    }
-    .blog-card--featured {
-      padding: 38px 40px;
-      background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
-    }
-    .blog-card__body {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      height: 100%;
-    }
-    .blog-card__cat {
-      font-size: 10.5px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent);
-      background: rgba(74,103,133,0.08);
-      padding: 4px 10px;
-      border-radius: 6px;
-      width: fit-content;
-    }
-    .blog-card__title {
-      font-size: 19px;
-      font-weight: 600;
-      line-height: 1.35;
-      letter-spacing: -0.01em;
-      color: var(--text);
-      margin: 4px 0 0;
-    }
-    .blog-card--featured .blog-card__title {
-      font-size: 22px;
-    }
-    .blog-card__excerpt {
-      font-size: 14.5px;
-      color: var(--text-muted);
-      line-height: 1.7;
-      flex-grow: 1;
-    }
-    .blog-card__meta {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      color: var(--text-dim);
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border);
-    }
-    .blog-card__arrow {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--accent);
-      margin-top: 12px;
-      display: inline-block;
-      transition: transform 0.2s;
-    }
-    .blog-card:hover .blog-card__arrow {
-      transform: translateX(4px);
-    }
-
-    .no-results {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--text-muted);
-      font-size: 16px;
-    }
-
-    /* ── ARTICLE MODAL READER ── */
-    .article-modal-backdrop {
-      position: fixed; inset: 0;
-      background: rgba(10,15,25,0.75);
-      backdrop-filter: blur(8px);
-      z-index: 2000;
-      display: flex; align-items: center; justify-content: center;
-      padding: 24px;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.25s ease;
-    }
-    .article-modal-backdrop.open {
-      opacity: 1; pointer-events: all;
-    }
-    .article-modal {
-      background: #ffffff;
-      width: 100%; max-width: 680px;
-      max-height: 90vh;
-      border-radius: 20px;
-      overflow-y: auto;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.3);
-      position: relative;
-      transform: translateY(20px);
-      transition: transform 0.25s ease;
-      display: flex; flex-direction: column;
-    }
-    .article-modal-backdrop.open .article-modal {
-      transform: translateY(0);
-    }
-    .article-modal__header {
-      padding: 32px 36px 20px;
-      border-bottom: 1px solid rgba(15,20,40,0.08);
-      position: relative;
-    }
-    .article-modal__close {
-      position: absolute; right: 24px; top: 24px;
-      background: var(--bg-2); border: none;
-      width: 34px; height: 34px; border-radius: 50%;
-      cursor: pointer; display: grid; place-items: center;
-      font-size: 18px; color: var(--text);
-      transition: background 0.2s;
-    }
-    .article-modal__close:hover { background: var(--bg-3); }
-    .article-modal__cat {
-      display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.08em; color: var(--accent); background: rgba(74,103,133,0.1);
-      padding: 4px 10px; border-radius: 6px; margin-bottom: 14px;
-    }
-    .article-modal__title {
-      font-size: 24px; font-weight: 600; line-height: 1.3; color: var(--text);
-      margin-bottom: 12px;
-    }
-    .article-modal__meta {
-      display: flex; gap: 8px; font-size: 13px; color: var(--text-dim);
-    }
-    .article-modal__content {
-      padding: 28px 36px 36px;
-      font-size: 15px; line-height: 1.75; color: var(--text-muted);
-    }
-    .article-modal__takeaways {
-      margin: 20px 0;
-      padding: 20px;
-      background: var(--bg);
-      border-radius: 12px;
-      border-left: 4px solid var(--accent);
-    }
-    .article-modal__takeaways h4 {
-      font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 10px;
-      text-transform: uppercase; letter-spacing: 0.04em;
-    }
-    .article-modal__takeaways ul {
-      padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 14px;
-    }
-    .article-modal__footer {
-      margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
-    }
-
-    /* ── CTA SECTION ── */
-    .blog-cta {
-      background: #0f1520;
-      padding: 110px 0;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .blog-cta::before {
-      content: ''; position: absolute; inset: 0;
-      background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-      background-size: 60px 60px; pointer-events: none;
-    }
-    .blog-cta .container { position: relative; z-index: 1; }
-    .blog-cta h2 {
-      font-size: clamp(28px, 3.5vw, 44px);
-      color: #f9f9f8;
-      margin: 14px auto 18px;
-      max-width: 580px;
-    }
-    .blog-cta p {
-      color: rgba(249,249,248,0.6);
-      font-size: 16px;
-      max-width: 480px;
-      margin: 0 auto 36px;
-      line-height: 1.75;
-    }
-
-    /* ── FOOTER ── */
-    footer { border-top: 1px solid rgba(255,255,255,0.08); background: #0a0f18; padding: 80px 0 40px; color: #f9f9f8; }
-    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
-    .footer-brand .logo { margin-bottom: 18px; display: flex; color: #fff; }
-    .footer-brand p { font-size: 14px; color: rgba(249,249,248,0.55); line-height: 1.75; max-width: 280px; margin-bottom: 24px; }
-    .footer-socials { display: flex; gap: 8px; }
-    .social-link {
-      width: 36px; height: 36px; border-radius: 8px;
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-      display: grid; place-items: center; transition: all var(--transition); color: rgba(249,249,248,0.7);
-      text-decoration: none;
-    }
-    .social-link:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
-    .social-link svg { width: 16px; height: 16px; }
-    .footer-col h4 { font-size: 13px; font-weight: 600; margin-bottom: 18px; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; }
-    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-    .footer-links a { font-size: 14px; color: rgba(249,249,248,0.5); text-decoration: none; transition: color var(--transition); }
-    .footer-links a:hover { color: #fff; }
-    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 28px; display: flex; align-items: center; justify-content: space-between; }
-    .footer-bottom p { font-size: 13px; color: rgba(249,249,248,0.4); }
-
-    /* ── ANIMATIONS & REVEAL ── */
-    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 1024px) {
-      .blog-grid { grid-template-columns: repeat(2, 1fr); }
-      .blog-grid--featured { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 768px) {
-      .blog-grid { grid-template-columns: 1fr; }
-      .blog-section-head { flex-direction: column; align-items: flex-start; gap: 14px; }
-      .nav-links, .nav-cta { display: none; }
-      .nav-hamburger { display: flex; }
-      .footer-top { grid-template-columns: 1fr; }
-      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
-    }
-  
-    @media (max-width: 768px) {
-      .blog-categories {
-        display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        padding: 4px 16px 8px;
-        width: 100vw;
-        margin-left: calc(-50vw + 50%);
-        scrollbar-width: none;
+  <!-- Schema.org Structured Data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Blog",
+        "@id": "https://yasirmalik.dev/blog.html#blog",
+        "url": "https://yasirmalik.dev/blog.html",
+        "name": "Shopify Insights & Engineering Blog | Yasir Malik",
+        "description": "Practical guides on Shopify performance, conversion rate optimization, Liquid development, and migrations.",
+        "author": {
+          "@type": "Person",
+          "name": "Yasir Malik",
+          "url": "https://yasirmalik.dev/"
+        }
+      },
+      {
+        "@type": "ItemList",
+        "name": "Featured Engineering Articles",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "BlogPosting",
+              "headline": "Building an AI copywriting agent that lives inside Discord",
+              "description": "Brand voice built from real artefacts, a memory system with an approval gate, and the reliability engineering that makes it trustworthy.",
+              "author": {
+                "@type": "Person",
+                "name": "Yasir Malik"
+              },
+              "articleSection": "Workflow"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "BlogPosting",
+              "headline": "Replacing a Shopify product options app with native metafields",
+              "description": "Migrating a D2C furniture brand off VO Product Options onto native metaobjects with zero app bloat.",
+              "author": {
+                "@type": "Person",
+                "name": "Yasir Malik"
+              },
+              "articleSection": "Development"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@type": "BlogPosting",
+              "headline": "How I cleaned up a six-week WordPress compromise in one morning",
+              "description": "Incident response playbook for removing 60 malicious files across 5 attack waves and webshell forensics.",
+              "author": {
+                "@type": "Person",
+                "name": "Yasir Malik"
+              },
+              "articleSection": "Security"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "@type": "BlogPosting",
+              "headline": "Why I stopped using Recharge for free trials (and what I learned)",
+              "description": "Five bugs in Recharge placeholder product architecture and why the clean solution was Stripe native trial_period_days.",
+              "author": {
+                "@type": "Person",
+                "name": "Yasir Malik"
+              },
+              "articleSection": "Development"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "@type": "BlogPosting",
+              "headline": "How I built a reusable CRO audit system (and shipped two audits in a week)",
+              "description": "The format, the template, and lessons on headless screenshot capture and HTML-to-PDF page heights.",
+              "author": {
+                "@type": "Person",
+                "name": "Yasir Malik"
+              },
+              "articleSection": "CRO"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "item": {
+              "@type": "BlogPosting",
+              "headline": "How to migrate a 5,500-product catalogue from Bluepark to Shopify",
+              "description": "Data mapping, option normalization, and automated 301 URL redirect preservation for eCommerce migrations.",
+              "author": {
+                "@type": "Person",
+                "name": "Yasir Malik"
+              },
+              "articleSection": "Migration"
+            }
+          }
+        ]
       }
-      .blog-categories::-webkit-scrollbar { display: none; }
-      .cat-btn { white-space: nowrap; flex-shrink: 0; }
-    }
-
-  </style>
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="assets/css/blog.css">
 </head>
 <body>
 
@@ -640,7 +167,7 @@
         <div class="logo-wrap">
           <a href="index.html" class="logo">
             <div class="logo-mark">
-              <img src="Logo.png" alt="Yasir Malik" style="width:34px;height:34px;border-radius:50%;object-fit:cover;display:block;">
+              <img src="assets/images/Logo.png" alt="Yasir Malik" style="width:34px;height:34px;border-radius:50%;object-fit:cover;display:block;">
             </div>
             Yasir Malik
           </a>
@@ -689,7 +216,7 @@
     <section class="blog-hero">
       <div class="container">
         <div style="display:inline-flex;align-items:center;gap:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:6px 16px 6px 6px;border-radius:100px;margin-bottom:18px;backdrop-filter:blur(8px);">
-          <img src="Logo.png" alt="Yasir Malik" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">
+          <img src="assets/images/Logo.png" alt="Yasir Malik" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">
           <span style="font-size:12.5px;color:rgba(255,255,255,0.92);font-weight:600;">Yasir Malik Engineering Blog</span>
         </div>
         <h1 class="blog-hero__title">Shopify insights from<br>a developer who builds it daily</h1>
@@ -2386,7 +1913,7 @@
     <section class="blog-cta">
       <div class="container">
         <div style="display:inline-block;margin-bottom:18px;">
-          <img src="Logo.png" alt="Yasir Malik" style="width:68px;height:68px;border-radius:50%;object-fit:cover;border:3px solid rgba(126,181,213,0.4);box-shadow:0 8px 24px rgba(0,0,0,0.35);">
+          <img src="assets/images/Logo.png" alt="Yasir Malik" style="width:68px;height:68px;border-radius:50%;object-fit:cover;border:3px solid rgba(126,181,213,0.4);box-shadow:0 8px 24px rgba(0,0,0,0.35);">
         </div>
         <div class="eyebrow" style="color:#7eb5d5;border-color:rgba(126,181,213,0.3);margin-bottom:16px;">Have a store challenge?</div>
         <h2>Need an expert review of your store?</h2>
@@ -2412,7 +1939,7 @@
         <span class="article-modal__cat" id="modalCat">Category</span>
         <h2 class="article-modal__title" id="modalTitle">Article Title</h2>
         <div class="article-modal__meta" style="align-items:center;">
-          <img src="Logo.png" alt="Yasir Malik" style="width:24px;height:24px;border-radius:50%;object-fit:cover;display:inline-block;">
+          <img src="assets/images/Logo.png" alt="Yasir Malik" style="width:24px;height:24px;border-radius:50%;object-fit:cover;display:inline-block;">
           <span id="modalDate">Date</span>
           <span>·</span>
           <span id="modalReadTime">Read time</span>
@@ -2455,7 +1982,7 @@
         <div class="footer-brand">
           <a href="index.html" class="logo">
             <div class="logo-mark">
-              <img src="Logo.png" alt="Yasir Malik" style="width:30px;height:30px;border-radius:50%;object-fit:cover;display:block;">
+              <img src="assets/images/Logo.png" alt="Yasir Malik" style="width:30px;height:30px;border-radius:50%;object-fit:cover;display:block;">
             </div>
             Yasir Malik
           </a>
@@ -2509,159 +2036,10 @@
   </footer>
 
   <!-- SCRIPTS -->
-  <script>
-    // ── NAV SCROLL BEHAVIOR ──
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 40);
-    }, { passive: true });
+  
 
-    // ── ANNOUNCEMENT BAR CLOSE ──
-    const closeBtn = document.getElementById('announcement-close');
-    const bar = document.getElementById('announcement-bar');
-    if (closeBtn && bar) {
-      closeBtn.addEventListener('click', () => { bar.classList.add('hidden'); });
-    }
-
-    // ── MOBILE MENU TOGGLE ──
-    const hamburgerBtn = document.getElementById('nav-hamburger');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    function toggleMobileMenu() {
-      const isOpen = mobileMenu.classList.contains('open');
-      if (isOpen) {
-        mobileMenu.classList.remove('open');
-        mobileMenu.setAttribute('inert', '');
-        hamburgerBtn.classList.remove('open');
-        hamburgerBtn.setAttribute('aria-expanded', 'false');
-        mobileMenu.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      } else {
-        mobileMenu.classList.add('open');
-        mobileMenu.removeAttribute('inert');
-        hamburgerBtn.classList.add('open');
-        hamburgerBtn.setAttribute('aria-expanded', 'true');
-        mobileMenu.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-      }
-    }
-
-    if (hamburgerBtn) {
-      hamburgerBtn.addEventListener('click', toggleMobileMenu);
-    }
-
-    document.querySelectorAll('.mobile-menu-links a, .mobile-menu-cta a').forEach(link => {
-      link.addEventListener('click', () => {
-        if (mobileMenu.classList.contains('open')) toggleMobileMenu();
-      });
-    });
-
-    // ── REVEAL ON SCROLL ──
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.05 });
-
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-    // ── SEARCH & CATEGORY FILTERING ──
-    const searchInput = document.getElementById('blogSearch');
-    const catButtons = document.querySelectorAll('.cat-btn');
-    const allCards = document.querySelectorAll('.blog-card');
-
-    let currentFilter = 'all';
-    let currentSearch = '';
-
-    function filterCards() {
-      allCards.forEach(card => {
-        const title = card.querySelector('.blog-card__title').textContent.toLowerCase();
-        const excerpt = card.querySelector('.blog-card__excerpt').textContent.toLowerCase();
-        const cat = card.getAttribute('data-category');
-
-        const matchesCat = (currentFilter === 'all') || (cat && cat.toLowerCase() === currentFilter.toLowerCase());
-        const matchesSearch = !currentSearch || title.includes(currentSearch) || excerpt.includes(currentSearch) || (cat && cat.toLowerCase().includes(currentSearch));
-
-        if (matchesCat && matchesSearch) {
-          card.style.display = 'flex';
-          card.classList.add('visible');
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    catButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        catButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentFilter = btn.getAttribute('data-filter');
-        filterCards();
-      });
-    });
-
-    if (searchInput) {
-      searchInput.addEventListener('input', (e) => {
-        currentSearch = e.target.value.trim().toLowerCase();
-        filterCards();
-      });
-    }
-
-    // ── ARTICLE PREVIEW MODAL ──
-    const modalBackdrop = document.getElementById('articleModalBackdrop');
-    const modalCloseBtn = document.getElementById('modalCloseBtn');
-    const modalDoneBtn = document.getElementById('modalDoneBtn');
-    const modalCat = document.getElementById('modalCat');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalDate = document.getElementById('modalDate');
-    const modalReadTime = document.getElementById('modalReadTime');
-    const modalExcerpt = document.getElementById('modalExcerpt');
-
-    function openModal(card) {
-      const cat = card.querySelector('.blog-card__cat').textContent;
-      const title = card.querySelector('.blog-card__title').textContent;
-      const excerpt = card.querySelector('.blog-card__excerpt').textContent;
-      const metaSpans = card.querySelectorAll('.blog-card__meta span');
-      const date = metaSpans[0] ? metaSpans[0].textContent : '2026';
-      const readTime = metaSpans[2] ? metaSpans[2].textContent : '8 min read';
-
-      modalCat.textContent = cat;
-      modalTitle.textContent = title;
-      modalExcerpt.textContent = excerpt;
-      modalDate.textContent = date;
-      modalReadTime.textContent = readTime;
-
-      modalBackdrop.classList.add('open');
-      modalBackdrop.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-      modalBackdrop.classList.remove('open');
-      modalBackdrop.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }
-
-    allCards.forEach(card => {
-      card.addEventListener('click', (e) => {
-        e.preventDefault();
-        openModal(card);
-      });
-    });
-
-    if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
-    if (modalDoneBtn) modalDoneBtn.addEventListener('click', closeModal);
-    if (modalBackdrop) {
-      modalBackdrop.addEventListener('click', (e) => {
-        if (e.target === modalBackdrop) closeModal();
-      });
-    }
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modalBackdrop.classList.contains('open')) closeModal();
-    });
-  </script>
+  <!-- External Modular Scripts -->
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/blog.js" defer></script>
 </body>
 </html>

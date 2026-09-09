@@ -19,7 +19,7 @@
  * ============================================================================
  */
 
-var SHEET_URL = 'https://docs.google.com/spreadsheets/d/1TdbmOVWeqqwkur_E60k1l7klb-vLhqP3IDEgB8Wr00c/edit';
+var SHEET_URL = 'https://docs.google.com/spreadsheets/d/1CEdo2ndiQU8l8ifqwagYznOWGCWYdkKcRuTLKi84FN4/edit?gid=0#gid=0';
 var NOTIFICATION_EMAILS = ['devyasir001@gmail.com'];
 
 function doPost(e) {
